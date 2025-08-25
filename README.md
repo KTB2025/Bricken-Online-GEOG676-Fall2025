@@ -9,5 +9,3 @@ Katherine (Kate) Bricken
 |Lab 05|Lab05/README.md|
 |Lab 06|Lab06/README.md|
 |Lab 07|Lab07/README.md|
-
-Can I change this?
