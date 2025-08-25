@@ -1,2 +1,11 @@
-# Bricken-Online-GEOG676-Fall2025
-Repository for Kate Bricken for GEOG676 - Fall 2025
+Katherine (Kate) Bricken
+
+|Assignment Name | Link | 
+|----------------|------|
+|Lab 01| |
+|Lab 02| |
+|Lab 03| |
+|Lab 04| |
+|Lab 05| |
+|Lab 06| |
+|Lab 07| |
