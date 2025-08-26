@@ -1,4 +1,4 @@
-#GEOG 676 - GIS Programming - Fall 2025
+# GEOG 676 - GIS Programming - Fall 2025
 Katherine (Kate) Bricken
 
 |Assignment Name | Link | 
