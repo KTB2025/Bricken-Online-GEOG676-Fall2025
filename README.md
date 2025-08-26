@@ -3,7 +3,7 @@ Katherine (Kate) Bricken
 
 |Assignment Name | Link | 
 |----------------|------|
-|Lab 01|[Lab 01](Lab01/README.md)|
+|Lab 01|[Lab 01](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025.git))|
 |Lab 02|[Lab 02](Lab02/README.md)|
 |Lab 03|[Lab 03](Lab03/README.md)|
 |Lab 04|[Lab 04](Lab04/README.md)|
