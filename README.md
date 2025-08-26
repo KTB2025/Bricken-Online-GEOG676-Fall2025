@@ -2,7 +2,7 @@ Katherine (Kate) Bricken
 
 |Assignment Name | Link | 
 |----------------|------|
-|Lab 01|Lab01/README.md|
+|Lab 01|[Lab01](Lab01/README.md)|
 |Lab 02|Lab02/README.md|
 |Lab 03|Lab03/README.md|
 |Lab 04|Lab04/README.md|
