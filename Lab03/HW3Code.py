@@ -6,27 +6,27 @@
 import math
 #Define Shape Classes
 class Shape():
-    def getarea(self):
+    def get_area(self):
         pass
 
 class Rectangle(Shape):
     def __init__(self,l,w):
         self.length = l
         self.width = w
-    def getarea(self):
+    def get_area(self):
         return self.length * self.width 
     
 class Circle(Shape):
     def __init__(self,r):
         self.radius = r
-    def getarea(self):
+    def get_area(self):
         return math.pi * self.radius * self.radius
     
 class Triangle(Shape):
     def __init__(self,b,h):
         self.base = b
         self.height = h
-    def getarea(self):
+    def get_area(self):
         return 0.5 * self.base * self.height 
     
 #Read Txt File
@@ -41,12 +41,12 @@ for line in lines:
 
     if Shape_Type == 'Rectangle':
         rect = Rectangle(float(components[1]),float(components[2]))
-        print('Area of Rectangle is:',rect.getarea())
+        print('Area of Rectangle is:',rect.get_area())
     elif Shape_Type == 'Circle':
         circl = Circle(float(components[1]))
-        print('Area of Circle is:',circl.getarea())
+        print('Area of Circle is:',circl.get_area())
     elif Shape_Type == 'Triangle':
         tri = Triangle(float(components[1]),float(components[2]))
-        print('Area of triangle is:',tri.getarea())
+        print('Area of triangle is:',tri.get_area())
     else:
         pass
