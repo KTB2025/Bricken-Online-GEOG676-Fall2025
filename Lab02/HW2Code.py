@@ -1,4 +1,4 @@
-# TAMU GIS Programming: Homework 02 - Arithmetic in Python
+# TAMU GIS Programming: Homework 02 - Arithmetic in Python / Fun With Loops
 # Author: Kate Bricken
 # Date: 08/31/2025
 
