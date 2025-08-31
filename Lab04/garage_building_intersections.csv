@@ -1,15 +1,41 @@
-Name,FID_Structures,BldgAbbr,BldgName,Address
-SSG,316,SSPG,South Side Parking Garage,750 Bizzell St
-CCG,105,LIBR,Evans Library,400 Spence St
-CCG,212,,Vending Machine Booth,408 Spence St
-CCG,428,CCPG,Central Campus Parking Garage,450 Spence St
-CCG,694,PAV,Pavilion,424 Spence St
-CCG,758,HLB,HEEP Laboratory Building,645 Lamar St
-NSG,651,NSPG,Northside Parking Garage,104 Ireland St
-WCG,416,WCG,West Campus Parking Garage,201 John Kimbrough Bl
-WCG,495,,,
-UCG,844,UCPG,University Center Parking Garage,660 Throckmorton St
-CAIN,1324,,Cain Parking Garage,500 Gene Stallings Bl
-CAIN,1362,,Cain Site Hotel,177 Joe Routt BL
-CCG,105,LIBR,Evans Library,400 Spence St
-CCG,1074,,,
+Name,BldgAbbr,BldgName,Address,OBJECTID
+SSG,,,,1
+SSG,,,,2
+SSG,SSPG,South Side Parking Garage,750 Bizzell St,3
+SSG,,,,4
+CCG,LIBR,Evans Library,400 Spence St,5
+CCG,,Vending Machine Booth,408 Spence St,6
+CCG,CCPG,Central Campus Parking Garage,450 Spence St,7
+CCG,GLAS,Melbern G. Glasscock Building,398 Spence St,8
+CCG,AIEN,AI Engineering Building,423 Spence St,9
+CCG,CSC,Computing Services Center,731 Lamar St,10
+CCG,PAV,Pavilion,424 Spence St,11
+CCG,HLB,HEEP Laboratory Building,645 Lamar St,12
+CCG,PETR,Peterson Building,435 Nagle St,13
+CCG,LAAH,Liberal Arts and Arts & Humanities Building,399 Spence St,14
+CCG,EABB,Engineering Activities Bldg B,620 Lamar St,15
+CCG,EABA,Engineering Activities Bldg A,646 Lamar St,16
+NSG,BLOC,Blocker Building,155 Ireland St,17
+NSG,NSPG,Northside Parking Garage,104 Ireland St,18
+NSG,MASS,Munnerlyn Astronomy & Space Sciences Engineering,101 Asbury St,19
+NSG,UCO,Utilities & Energy Services Central Office,165 Asbury St,20
+NSG,CUP,Central Utility Plant,222 Ireland St,21
+NSG,MIST,Mitchell Inst for Fundamental Phys & Astronomy,576 University Dr,22
+WCG,,,,23
+WCG,WCG,West Campus Parking Garage,201 John Kimbrough Bl,24
+WCG,,,,25
+WCG,,,,26
+WCG,,,,27
+UCG,SCCT,Sam Houston Sanders Corps of Cadets Center,475 Short St,28
+UCG,JJKB,Koldus Building,400 Joe Routt Bl,29
+UCG,UCPG,University Center Parking Garage,660 Throckmorton St,30
+UCG,,,,31
+CAIN,,Cain Parking Garage,500 Gene Stallings Bl,32
+CAIN,,,,33
+CAIN,,,,34
+CAIN,,,,35
+CAIN,,,,36
+CAIN,,,,37
+CAIN,,Cain Site Hotel,177 Joe Routt BL,38
+CCG,LIBR,Evans Library,400 Spence St,39
+CCG,,,,40

@@ -4,130 +4,148 @@
 # Date: 08/31/2025
 # =============================================
 
-import arcpy     # ArcPy module for geoprocessing
-import csv       # For reading/writing CSV files
-import os        # For path manipulation
-import sys       # To accept command-line arguments
+import arcpy
+import csv
+import os
+import sys
 
-# --------------------------------------------------------
-# Get Buffer Distance from Command Line Arguments
-# --------------------------------------------------------
-# Usage example: python HW4Code.py 100
-# Accepts 1 argument: buffer distance in meters (e.g., "100")
-# This avoids using input() and supports automation via CLI
-
-if len(sys.argv) < 2:
-    print("Usage: python HW4Code.py <buffer_distance_in_meters>")
-    sys.exit(1)
-
-buffer_meters = sys.argv[1]
-buffer_distance = f"{buffer_meters} Meters"
-
-# --------------------------------------------------------
-# Set Up Workspace, Paths, and Environment
-# --------------------------------------------------------
-
+# ----------------------------
+# 0) Inputs & environment
+# ----------------------------
 workspace = r"C:\Mac\Home\Documents\FallWorkSpace\Bricken-Online-GEOG676-Fall2025\Lab04"
 arcpy.env.workspace = workspace
-arcpy.env.overwriteOutput = True  # Allow overwriting of existing outputs
+arcpy.env.overwriteOutput = True
 
-# Input files
-csv_file = os.path.join(workspace, "garages.csv")                     # CSV with X/Y garage locations
-structures_path = os.path.join(workspace, "Campus.gdb", "Structures") # Input building layer
-
-# Output geodatabase
+csv_file = os.path.join(workspace, "garages.csv")                      # X,Y,Name
+structures_path = os.path.join(workspace, "Campus.gdb", "Structures")  # Buildings FC
 output_gdb = os.path.join(workspace, "HW04.gdb")
 
-# --------------------------------------------------------
-# Step 1: Create Output Geodatabase (if it doesn't exist)
-# --------------------------------------------------------
+# ----------------------------
+# 1) Buffer distance (meters)
+# ----------------------------
+if len(sys.argv) >= 2:
+    raw = sys.argv[1]
+else:
+    raw = input("Enter buffer distance in meters (e.g., 100): ").strip()
+
+try:
+    buffer_meters_val = abs(float(raw))
+except Exception:
+    raise ValueError(f"Buffer distance must be numeric (got: {raw})")
+
+buffer_distance_str = f"{buffer_meters_val} Meters"
+
+# ----------------------------
+# 2) Preconditions
+# ----------------------------
+if not os.path.exists(csv_file):
+    raise FileNotFoundError(f"Missing CSV: {csv_file}")
+if not arcpy.Exists(structures_path):
+    raise FileNotFoundError(f"Missing Structures FC: {structures_path}")
 
 if not arcpy.Exists(output_gdb):
-    arcpy.CreateFileGDB_management(workspace, "HW04.gdb")
+    arcpy.management.CreateFileGDB(workspace, "HW04.gdb")
 
-# --------------------------------------------------------
-# Step 2: Create Point Feature Class from CSV Coordinates
-# --------------------------------------------------------
-
+# ----------------------------
+# 3) CSV -> point FC (WGS84)
+# ----------------------------
 garage_fc = os.path.join(output_gdb, "Garages")
-spatial_ref = arcpy.SpatialReference(4326)  # WGS 1984 - matches CSV coordinate system
-
-# Delete old layer if it exists
 if arcpy.Exists(garage_fc):
-    arcpy.Delete_management(garage_fc)
+    arcpy.management.Delete(garage_fc)
 
-# Create empty point feature class
-arcpy.CreateFeatureclass_management(output_gdb, "Garages", "POINT", spatial_reference=spatial_ref)
-arcpy.AddField_management(garage_fc, "Name", "TEXT")  # Add a text field for garage names
+sr_wgs84 = arcpy.SpatialReference(4326)  # CSV is assumed lon/lat WGS84
 
-# Read CSV and insert points
-with open(csv_file, "r") as f:
+# Create empty point FC and add name
+arcpy.management.CreateFeatureclass(output_gdb, "Garages", "POINT", spatial_reference=sr_wgs84)
+arcpy.management.AddField(garage_fc, "Name", "TEXT", field_length=100)
+
+# Insert points from CSV
+with open(csv_file, "r", newline="") as f:
     reader = csv.DictReader(f)
-    with arcpy.da.InsertCursor(garage_fc, ["SHAPE@XY", "Name"]) as cursor:
+    required = {"X", "Y", "Name"}
+    if not required.issubset(set(reader.fieldnames or [])):
+        raise ValueError(f"CSV must contain columns: {', '.join(required)}")
+    with arcpy.da.InsertCursor(garage_fc, ["SHAPE@XY", "Name"]) as icur:
         for row in reader:
             x = float(row["X"])
             y = float(row["Y"])
-            name = row["Name"]
-            cursor.insertRow(((x, y), name))
+            nm = row["Name"]
+            icur.insertRow(((x, y), nm))
 
-# --------------------------------------------------------
-# Step 3: Copy Structures Layer to Output GDB
-# --------------------------------------------------------
+print("✓ Created garage points from CSV")
 
+# ----------------------------
+# 4) Copy Structures to GDB
+# ----------------------------
 structures_copy = os.path.join(output_gdb, "Structures")
 if not arcpy.Exists(structures_copy):
-    arcpy.CopyFeatures_management(structures_path, structures_copy)
+    arcpy.management.CopyFeatures(structures_path, structures_copy)
+    print("✓ Copied Structures into HW04.gdb")
+else:
+    print("• Structures already present in HW04.gdb")
 
-# --------------------------------------------------------
-# Step 4: Buffer Garage Points
-# --------------------------------------------------------
+# ----------------------------
+# 5) Project garages to match Structures
+# ----------------------------
+sr_struct = arcpy.Describe(structures_copy).spatialReference
+garages_proj = os.path.join(output_gdb, "Garages_proj")
+if arcpy.Exists(garages_proj):
+    arcpy.management.Delete(garages_proj)
 
+arcpy.management.Project(garage_fc, garages_proj, sr_struct)
+print(f"✓ Projected garages to {sr_struct.name}")
+
+# ----------------------------
+# 6) Buffer (planar, in meters string OK)
+# ----------------------------
 buffer_fc = os.path.join(output_gdb, "GarageBuffers")
-
-# Delete buffer layer if it already exists
 if arcpy.Exists(buffer_fc):
-    arcpy.Delete_management(buffer_fc)
+    arcpy.management.Delete(buffer_fc)
 
-# Create buffer around each garage point
-arcpy.Buffer_analysis(garage_fc, buffer_fc, buffer_distance)
+# Note: Providing "XX Meters" converts units as needed even if dataset units differ
+arcpy.analysis.Buffer(garages_proj, buffer_fc, buffer_distance_str, dissolve_option="NONE")
+print(f"✓ Buffered garages at {buffer_distance_str}")
 
-# --------------------------------------------------------
-# Step 5: Intersect Buffers with Structures Layer
-# --------------------------------------------------------
-
+# ----------------------------
+# 7) Intersect buffers with Structures
+# ----------------------------
 intersect_fc = os.path.join(output_gdb, "GarageBuilding_Intersect")
-
-# Delete old intersection if it exists
 if arcpy.Exists(intersect_fc):
-    arcpy.Delete_management(intersect_fc)
+    arcpy.management.Delete(intersect_fc)
 
-# Perform spatial intersection
-arcpy.Intersect_analysis([buffer_fc, structures_copy], intersect_fc)
+arcpy.analysis.Intersect([buffer_fc, structures_copy], intersect_fc, output_type="INPUT")
+print("✓ Intersected buffers with Structures")
 
-# --------------------------------------------------------
-# Step 6: Inspect Field Names in Intersect Output
-# --------------------------------------------------------
-
+# ----------------------------
+# 8) Inspect fields & export CSV
+# ----------------------------
+all_fields = {f.name for f in arcpy.ListFields(intersect_fc)}
 print("Available fields in intersect output:")
-field_names = [f.name for f in arcpy.ListFields(intersect_fc)]
-for name in field_names:
-    print("-", name)
+for nm in sorted(all_fields):
+    print(" -", nm)
 
-# --------------------------------------------------------
-# Step 7: Export Selected Fields to CSV
-# --------------------------------------------------------
+# Prefer these if available:
+preferred = ["Name", "BldgAbbr", "BldgName", "Address"]
+
+# Build an export list from available fields (keep order from preferred, then add a stable id)
+fields_to_export = [f for f in preferred if f in all_fields]
+
+# Add a stable ID last for traceability
+for candidate in ("OBJECTID", "FID", "OID@", "OID"):
+    if candidate in all_fields:
+        fields_to_export.append(candidate)
+        break
+
+if not fields_to_export:
+    # Fallback: at least give OBJECTID
+    fields_to_export = ["OBJECTID"]
 
 output_csv = os.path.join(workspace, "garage_building_intersections.csv")
-
-# Select fields of interest for export
-fields_to_export = ["Name", "FID_Structures", "BldgAbbr", "BldgName", "Address"]
-
-# Write CSV
-with open(output_csv, "w", newline="") as f:
+with open(output_csv, "w", newline="", encoding="utf-8") as f:
     writer = csv.writer(f)
-    writer.writerow(fields_to_export)  # Write header
-    with arcpy.da.SearchCursor(intersect_fc, fields_to_export) as cursor:
-        for row in cursor:
+    writer.writerow(fields_to_export)
+    with arcpy.da.SearchCursor(intersect_fc, fields_to_export) as cur:
+        for row in cur:
             writer.writerow(row)
 
-print("✅ Done! CSV exported to:", output_csv)
+print(f"Done! CSV exported to: {output_csv}")
