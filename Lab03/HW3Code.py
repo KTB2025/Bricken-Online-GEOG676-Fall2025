@@ -39,15 +39,15 @@ file.close()
 #For each line, create a new object determined by the shape & print the area calculated for each shape
 for line in lines:
     components = line.split(',')
-    Shape_Type = components[0].strip() #remove the leading and trailing whitespace from astring
+    shape_type = components[0].strip() #remove the leading and trailing whitespace from astring
 
-    if Shape_Type == 'Rectangle':
+    if shape_type == 'Rectangle':
         rect = Rectangle(float(components[1]),float(components[2]))
         print('Area of Rectangle is:',rect.get_area())
-    elif Shape_Type == 'Circle':
+    elif shape_type == 'Circle':
         circl = Circle(float(components[1]))
         print('Area of Circle is:',circl.get_area())
-    elif Shape_Type == 'Triangle':
+    elif shape_type == 'Triangle':
         tri = Triangle(float(components[1]),float(components[2]))
         print('Area of triangle is:',tri.get_area())
     else:
