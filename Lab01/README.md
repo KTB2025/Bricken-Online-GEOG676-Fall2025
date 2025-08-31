@@ -30,31 +30,6 @@ Link Leads to main README.md, which hosts the assignment submission table.
 ## Initial Repository Structure
 ![HW01 Initial Repository](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/main/Lab01/Initial%20Repository.png?raw=true)
 
-The following directory structure was created in my repository:
-├── README.md ← Main repo homepage
-├── lab 01
-│ ├── readme.md
-├── Lab 02
-│ ├── readme.md
-│ ├── HW2Code.py
-├── Lab 03
-│ ├── readme.md
-│ ├── HW3Code.py
-├── Lab 04
-│ ├── readme.md
-│ ├── HW4Code.py
-├── Lab 05
-│ ├── readme.md
-│ ├── HW5Code.py
-├── Lab 06
-│ ├── readme.md
-│ ├── HW6Code.py
-├── Lab 07
-│ ├── readme.md
-│ ├── HW7Code.py
-
-Each folder contains a `README.md` file to document its contents and serve as a landing page for future work.
-
 ---
 
 ## Development Environment
