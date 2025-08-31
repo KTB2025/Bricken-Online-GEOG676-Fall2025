@@ -28,6 +28,7 @@ Link Leads to main README.md, which hosts the assignment submission table.
 ---
 
 ## Initial Repository Structure
+![HW01 Initial Repository](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/main/Lab01/Initial%20Repository.png?raw=true)
 
 The following directory structure was created in my repository:
 ├── README.md ← Main repo homepage
