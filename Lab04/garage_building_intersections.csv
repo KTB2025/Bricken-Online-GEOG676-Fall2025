@@ -1,0 +1,15 @@
+Name,FID_Structures,BldgAbbr,BldgName,Address
+SSG,316,SSPG,South Side Parking Garage,750 Bizzell St
+CCG,105,LIBR,Evans Library,400 Spence St
+CCG,212,,Vending Machine Booth,408 Spence St
+CCG,428,CCPG,Central Campus Parking Garage,450 Spence St
+CCG,694,PAV,Pavilion,424 Spence St
+CCG,758,HLB,HEEP Laboratory Building,645 Lamar St
+NSG,651,NSPG,Northside Parking Garage,104 Ireland St
+WCG,416,WCG,West Campus Parking Garage,201 John Kimbrough Bl
+WCG,495,,,
+UCG,844,UCPG,University Center Parking Garage,660 Throckmorton St
+CAIN,1324,,Cain Parking Garage,500 Gene Stallings Bl
+CAIN,1362,,Cain Site Hotel,177 Joe Routt BL
+CCG,105,LIBR,Evans Library,400 Spence St
+CCG,1074,,,
