@@ -8,7 +8,7 @@
 
 This repository contains all homework and lab assignments completed for **GEOG 676 - GIS Programming** at Texas A&M University. Each folder contains code, data, and documentation related to that specific assignment.
 
-Use the table below to navigate to each lab or homework submission.
+Use the table below to navigate to each assignment submission.
 
 ---
 
