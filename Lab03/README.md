@@ -68,10 +68,10 @@ Area as integer (using __len__): 254
 
 ## Screenshot of Executed Code
 
-![HW03 Screenshot #1](https://drive.google.com/file/d/1YhIfC-AYjfxcpHDJFRUZ_bU5leaqQDza/view?usp=share_link) 
-![HW03 Screenshot #2](https://drive.google.com/file/d/1safysICMxa9Q6mtvsrgfODUkMAwNsycZ/view?usp=share_link) 
-![HW03 Screenshot #3](https://drive.google.com/file/d/1bkSkObwvLwj-ByOjSYUKKk_5wBAvKrTg/view?usp=share_link) 
-![HW03 Screenshot #4](https://drive.google.com/file/d/1H-gaffgJEk1p-gtUlaSMcgBTn54xNRyo/view?usp=share_link) 
+![HW03 Screenshot #1](Lab03\Bricken_GEOG676_HW3.png) 
+![HW03 Screenshot #2](Lab03\Bricken_GEOG676_HW3_2.png) 
+![HW03 Screenshot #3](Lab03\Bricken_GEOG676_HW3_3.png) 
+![HW03 Screenshot #4](Lab03\Bricken_GEOG676_HW3_4.png) 
 
 ---
 

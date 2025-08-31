@@ -47,8 +47,8 @@ Solution: A for loop with an if condition checking num % 2 == 0.
 
 ## Screenshot of Executed Code
 
-![HW02 Screenshot #1](https://drive.google.com/file/d/1EzWijkp7qq8LH5jGHrRsQPB6NPa985cl/view?usp=share_link) 
-![HW02 Screenshot #2](https://drive.google.com/file/d/10Xg3Oi3Dkcl5vj6rsT0yLz_ejZkEjEBx/view?usp=share_link) 
+![HW02 Screenshot #1](Lab02\Bricken_GEOG676_HW2.png) 
+![HW02 Screenshot #2](Lab02\Bricken_GEOG676_HW2_2.png) 
 
 ---
 
