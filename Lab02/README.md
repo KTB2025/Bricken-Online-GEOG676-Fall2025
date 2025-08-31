@@ -48,7 +48,7 @@ Solution: A for loop with an if condition checking num % 2 == 0.
 ## Screenshot of Executed Code
 
 ![HW02 Screenshot #1](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/main/Lab02/Bricken_GEOG676_HW2.png?raw=true) 
-![HW02 Screenshot #2](Lab02\Bricken_GEOG676_HW2_2.png) 
+![HW02 Screenshot #2](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/main/Lab02/Bricken_GEOG676_HW2_2.png?raw=true)
 
 ---
 
