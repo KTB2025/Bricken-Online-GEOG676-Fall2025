@@ -1,57 +1,77 @@
-#TAMU GIS Programming: Homework 03 - Fun with object oriented programming
+# TAMU GIS Programming: Homework 03 - Fun with object oriented programming
 # Author: Kate Bricken
 # Date: 08/31/2025
 
-##Read data in from the provided text file found here (20pt)
-##Create a class for each shape found in the text file (20pt)
-##For each line, create a new object determined by the shape (e.g. Triangle object for line Triangle,8,1 base and height) (30pt)
-##Iterate through your list and print out the area for each shape (30pt)
+import math # Access Python's built in math module for more precise/accurate calculations
 
-import math #Access Python's built in math module for more precise/accurate answers 
+# -------------------------------
+# Define Shape Classes
+# -------------------------------
 
-#Define Shape Classes
-class Shape():
-    def get_area(self):
+class Shape(): # Base class for all shapes
+    def get_area(self): #Placeholder for area calculation
         pass
 
-class Rectangle(Shape):
+    def __str__(self):  # Returns a human readable string showing the shape type and area
+        return f"{type(self).__name__} with area {self.get_area():.2f}"
+
+    def __len__(self):  #  Enables use of len(shape) to get the shape's area as an integer
+        return int(self.get_area())
+
+class Rectangle(Shape): #  Rectangle shape, defined by length and width
     def __init__(self,l,w):
         self.length = l
         self.width = w
     def get_area(self):
-        return self.length * self.width 
-    
-class Circle(Shape):
+        return self.length * self.width
+
+class Circle(Shape): # Circle shape, defined by radius
     def __init__(self,r):
         self.radius = r
     def get_area(self):
-        return math.pi * self.radius * self.radius #Use the exact value of pi
+        return math.pi * self.radius * self.radius # Use the exact value of pi
     
-class Triangle(Shape):
+class Triangle(Shape): # Triangle shape, defined by base and height
     def __init__(self,b,h):
         self.base = b
         self.height = h
     def get_area(self):
         return 0.5 * self.base * self.height 
     
-#Read Shape.Txt File
-file = open(r'C:\Mac\Home\Documents\FallWorkSpace\Bricken-Online-GEOG676-Fall2025\Lab03\shape.txt','r')
-lines = file.readlines()
-file.close()
+# -------------------------------
+# Read Shape.Txt File
+# -------------------------------
+from pathlib import Path
 
-#For each line, create a new object determined by the shape & print the area calculated for each shape
+file_path = Path(__file__).resolve().parent / 'shape.txt' # Build a path to 'shape.txt' in the same directory as this code
+
+
+with open(file_path, 'r') as file:
+    lines = file.readlines() # Read each line of the file into a list of strings
+
+
+# -------------------------------
+# For each line, create a new object determined by the shape & add to a list
+# -------------------------------
+
+shapes = []  # Create list to hold all shape objects
+
 for line in lines:
-    components = line.split(',')
-    shape_type = components[0].strip() #remove the leading and trailing whitespace from astring
+    components = line.strip().split(',')  # split line by commas
+    shape_type = components[0] # First element is the shape type
 
+    # Based on shape type, initialize appropriate object and add to list
     if shape_type == 'Rectangle':
-        rect = Rectangle(float(components[1]),float(components[2]))
-        print('Area of Rectangle is:',rect.get_area())
+        shapes.append(Rectangle(float(components[1]), float(components[2])))
     elif shape_type == 'Circle':
-        circl = Circle(float(components[1]))
-        print('Area of Circle is:',circl.get_area())
+        shapes.append(Circle(float(components[1])))
     elif shape_type == 'Triangle':
-        tri = Triangle(float(components[1]),float(components[2]))
-        print('Area of triangle is:',tri.get_area())
-    else:
-        pass
+        shapes.append(Triangle(float(components[1]), float(components[2])))
+
+# -------------------------------
+# Iterate through your list and print out the area for each shape
+# -------------------------------
+
+for shape in shapes:
+    print(shape)  # Calls __str__ method, prints shape type and area
+    print(f"Area as integer (using __len__): {len(shape)}")  # Calls __len__, converts area to int
