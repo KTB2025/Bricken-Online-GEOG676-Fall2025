@@ -55,8 +55,7 @@ Solution: A for loop with an if condition checking num % 2 == 0.
 # Submission Items
 1. Python script (HW2Code.py)
 2. Screenshot of executed code (2 images)
-3. GitHub repository link
-4. This README.md file
+3. This README.md file
 
 ---
 
