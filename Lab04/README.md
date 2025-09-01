@@ -64,7 +64,7 @@ The workflow is designed to be **reproducible** and **robust** (safe overwrites,
 4. When prompted, enter a **buffer distance in meters** (e.g., `100`).
 
 **Option B — Command line with argument:**
-```bash
+
 python HW4Code.py 150
 
 This skips the prompt and uses 150 Meters.
