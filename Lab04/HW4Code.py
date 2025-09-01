@@ -34,19 +34,28 @@ output_gdb = os.path.join(workspace, "HW04.gdb")
 # ----------------------------
 # Buffer distance (meters)
 # ----------------------------
-# Accept distance from command line (grader-friendly) or prompt (student run)
-if len(sys.argv) >= 2:
-    raw = sys.argv[1]
+# ----------------------------
+# Buffer distance (meters)
+# ----------------------------
+import argparse
+
+parser = argparse.ArgumentParser(description="HW4 buffer distance (meters)")
+parser.add_argument("buffer", nargs="?", type=float, help="Buffer distance in meters")
+args = parser.parse_args()
+
+if args.buffer is not None:
+    buffer_meters_val = abs(float(args.buffer))
 else:
-    raw = input("Enter buffer distance in meters (e.g., 100): ").strip()
+    while True:
+        raw = input("Enter buffer distance in meters (e.g., 100): ").strip()
+        try:
+            buffer_meters_val = abs(float(raw))
+            break
+        except ValueError:
+            print(f"Please enter a numeric value (you typed: {raw!r}).")
 
-# Guardrail: must be numeric; abs() to handle negative input gracefully
-try:
-    buffer_meters_val = abs(float(raw))
-except Exception:
-    raise ValueError(f"Buffer distance must be numeric (got: {raw})")
+buffer_distance_str = f"{buffer_meters_val} Meters"
 
-buffer_distance_str = f"{buffer_meters_val} Meters"  # arcpy accepts unit-tagged strings
 
 # ----------------------------
 # Preconditions
