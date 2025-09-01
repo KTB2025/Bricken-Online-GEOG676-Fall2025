@@ -21,16 +21,6 @@ This assignment demonstrates the use of **object-oriented programming (OOP)** in
 
 ---
 
-## Project Files
-Lab03
-│ 
-├── HW3Code.py # Python script with OOP implementation
-├── README.md # This file that you're currently reading
-└── shape.txt # Input file with shape data (e.g., "Rectangle,5,6")
-
-
----
-
 ## How It Works
 
 1. The script reads shape definitions from `shape.txt`.

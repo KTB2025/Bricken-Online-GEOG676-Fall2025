@@ -1,6 +1,6 @@
 # TAMU GIS Programming: Homework 03 - Fun with object oriented programming
 # Author: Kate Bricken
-# Date: 08/31/2025
+# Date: 09/01/2025
 
 import math # Access Python's built in math module for more precise/accurate calculations
 

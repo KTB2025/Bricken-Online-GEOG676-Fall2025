@@ -47,24 +47,6 @@ The workflow is designed to be **reproducible** and **robust** (safe overwrites,
 
 ---
 
-## Project Structure
-
-Lab04/
-├─ garages.csv # Input CSV with X, Y, Name
-├─ Campus.gdb/ # Provided geodatabase (source Structures)
-├─ HW04.gdb/ # Created by script (outputs)
-│ ├─ Garages # Points from CSV (WGS84)
-│ ├─ Structures # Copy of Campus.gdb/Structures
-│ ├─ Garages_proj # Garages reprojected to match Structures
-│ ├─ GarageBuffers # Buffers around garage points
-│ └─ GarageBuilding_Intersect # Intersect of buffers with Structures
-├─ garage_building_intersections.csv # Final exported table
-├─ HW4Code.py # This homework’s Python script
-└─ README.md
-
-
----
-
 ## Requirements
 
 - **ArcGIS Pro** (ArcPy environment)  
