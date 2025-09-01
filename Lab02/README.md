@@ -58,9 +58,3 @@ Solution: A for loop with an if condition checking num % 2 == 0.
 3. This README.md file
 
 ---
-
-# Additional Resources Used:
-
-Python Lists – Google Developers
-
-Python documentation on loops
