@@ -43,26 +43,26 @@ Lab03
 ---
 
 ## Code Output
-Rectangle with area 5.00
-Area as integer (using __len__): 5
-Circle with area 28.27
-Area as integer (using __len__): 28
-Triangle with area 4.00
-Area as integer (using __len__): 4
-Triangle with area 13.50
-Area as integer (using __len__): 13
-Triangle with area 20.00
-Area as integer (using __len__): 20
-Circle with area 28.27
-Area as integer (using __len__): 28
-Rectangle with area 8.00
-Area as integer (using __len__): 8
-Rectangle with area 30.00
-Area as integer (using __len__): 30
-Triangle with area 10.00
-Area as integer (using __len__): 10
-Circle with area 254.47
-Area as integer (using __len__): 254
+- Rectangle with area 5.00
+- Area as integer (using __len__): 5
+- Circle with area 28.27
+- Area as integer (using __len__): 28
+- Triangle with area 4.00
+- Area as integer (using __len__): 4
+- Triangle with area 13.50
+- Area as integer (using __len__): 13
+- Triangle with area 20.00
+- Area as integer (using __len__): 20
+- Circle with area 28.27
+- Area as integer (using __len__): 28
+- Rectangle with area 8.00
+- Area as integer (using __len__): 8
+- Rectangle with area 30.00
+- Area as integer (using __len__): 30
+- Triangle with area 10.00
+- Area as integer (using __len__): 10
+- Circle with area 254.47
+- Area as integer (using __len__): 254
 
 ---
 
