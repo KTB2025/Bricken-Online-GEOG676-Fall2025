@@ -26,21 +26,18 @@ This assignment practices core Python skills such as working with lists, loops, 
 ### Part 1 — Multiply All Numbers in a List
 part1 = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]
 
-Goal: Multiply all values in part1.
 Solution: A for loop was used to iterate and accumulate the product.
 
 ### Part 2 — Add All Numbers in a List
 part2 = [-1, 23, 483, 8573, -13847, -381569, 1652337, 718522177]
 
 
-Goal: Add all values in part2.
 Solution: A while loop was used to iterate through the list and compute the sum.
 
 ### Part 3 — Add Only Even Numbers from a List
 part3 = [146, 875, 911, 83, 81, 439, 44, 5, 46, 76, 61, 68, 1, 14, 38, 26, 21]
 
 
-Goal: Use a loop and modulo operator (%) to add only even numbers from the list.
 Solution: A for loop with an if condition checking num % 2 == 0.
 
 ---
