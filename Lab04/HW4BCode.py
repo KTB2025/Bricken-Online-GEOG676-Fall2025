@@ -1,27 +1,47 @@
 # =============================================
 # TAMU GIS Programming: Homework 04 - Fun with arcpy
 # Author: Kate Bricken
-# Date: 08/31/2025
+# Date: 09/02/2025
 # =============================================
 
 import arcpy
 import os
+import csv
 
 # ----------------------------
-# Paths / environment
+# Setup: paths & environment
 # ----------------------------
 workspace = r"C:\Mac\Home\Documents\FallWorkSpace\Bricken-Online-GEOG676-Fall2025\Lab04"
 arcpy.env.workspace = workspace
-arcpy.env.overwriteOutput = True
+arcpy.env.overwriteOutput = True  # overwrite old outputs safely
 
-csv_file        = os.path.join(workspace, "garages.csv")                      # expects: X, Y, Name
-structures_src  = os.path.join(workspace, "Campus.gdb", "Structures")         # given
-out_gdb         = os.path.join(workspace, "HW04.gdb")                         # new / reused
+csv_file        = os.path.join(workspace, "garages.csv")             # garage coords (X, Y, Name)
+structures_src  = os.path.join(workspace, "Campus.gdb", "Structures")# provided buildings layer
+out_gdb         = os.path.join(workspace, "HW04.gdb")                # output GDB for this HW
 out_csv         = os.path.join(workspace, "garage_building_intersections.csv")
+
+# ----------------------------
+# Preconditions / validation
+# ----------------------------
+# Ensure required input files exist
+if not os.path.exists(csv_file):
+    raise FileNotFoundError(f"Missing CSV: {csv_file}")
+if not arcpy.Exists(structures_src):
+    raise FileNotFoundError(f"Missing Structures feature class: {structures_src}")
+
+# Validate CSV headers contain X and Y fields
+with open(csv_file, "r", newline="") as f:
+    reader = csv.reader(f)
+    headers = next(reader, None)
+    if headers is None:
+        raise ValueError("CSV file is empty.")
+    if not {"X", "Y"}.issubset(set(headers)):
+        raise ValueError(f"CSV must contain 'X' and 'Y'. Found: {headers}")
 
 # ----------------------------
 # 1) Get buffer distance (meters)
 # ----------------------------
+# Prompt user and validate numeric input
 while True:
     raw = input("Enter buffer distance in meters (e.g., 100): ").strip()
     try:
@@ -30,22 +50,27 @@ while True:
     except ValueError:
         print(f"Please enter a number (you typed: {raw!r}).")
 buf_str = f"{buf_m} Meters"
+print(f"✓ Buffer distance set to: {buf_str}")
 
 # ----------------------------
-# 2) Create GDB (if missing)
+# 2) Create output GDB
 # ----------------------------
+# Store all results in HW04.gdb for consistency
 if not arcpy.Exists(out_gdb):
     arcpy.management.CreateFileGDB(workspace, "HW04.gdb")
+    print(f"✓ Created geodatabase: {out_gdb}")
+else:
+    print(f"• Using existing geodatabase: {out_gdb}")
 
 # ----------------------------
-# 3) CSV -> points (WGS84)
+# 3) CSV -> point feature class
 # ----------------------------
-sr_wgs84 = arcpy.SpatialReference(4326)  # lon/lat
+sr_wgs84 = arcpy.SpatialReference(4326)  # WGS84 (matches lon/lat input)
 garages = os.path.join(out_gdb, "Garages")
 if arcpy.Exists(garages):
     arcpy.management.Delete(garages)
 
-# XYTableToPoint brings over the Name field automatically if present
+# Create point features directly from CSV
 arcpy.management.XYTableToPoint(
     in_table=csv_file,
     out_feature_class=garages,
@@ -53,42 +78,54 @@ arcpy.management.XYTableToPoint(
     y_field="Y",
     coordinate_system=sr_wgs84
 )
+print(f"✓ Created garage points (WGS84): {garages}")
+
+# Copy Structures into HW04.gdb for local use
 structures = os.path.join(out_gdb, "Structures")
-arcpy.management.CopyFeatures(structures_src, structures); structures_src = structures
+if not arcpy.Exists(structures):
+    arcpy.management.CopyFeatures(structures_src, structures)
+    print(f"✓ Copied Structures into HW04.gdb: {structures}")
+else:
+    print("• Structures already present in HW04.gdb")
 
 # ----------------------------
-# 4) Project to match Structures
+# 4) Project garages
 # ----------------------------
-sr_struct = arcpy.Describe(structures_src).spatialReference
+# Reproject garages to match Structures (so buffer units = meters)
+sr_struct = arcpy.Describe(structures).spatialReference
+print(f"• Structures spatial reference: {sr_struct.name}")
+
 garages_proj = os.path.join(out_gdb, "Garages_proj")
 if arcpy.Exists(garages_proj):
     arcpy.management.Delete(garages_proj)
 arcpy.management.Project(garages, garages_proj, sr_struct)
+print(f"✓ Projected garages to: {sr_struct.name}")
 
 # ----------------------------
-# 5) Buffer (planar; meters)
+# 5) Buffer garages
 # ----------------------------
 buffers = os.path.join(out_gdb, "GarageBuffers")
 if arcpy.Exists(buffers):
     arcpy.management.Delete(buffers)
 arcpy.analysis.Buffer(garages_proj, buffers, buf_str, dissolve_option="NONE")
+print(f"✓ Buffered garages at {buf_str}")
 
 # ----------------------------
-# 6) Intersect with Structures
+# 6) Intersect buffers + Structures
 # ----------------------------
 intersect_fc = os.path.join(out_gdb, "GarageBuilding_Intersect")
 if arcpy.Exists(intersect_fc):
     arcpy.management.Delete(intersect_fc)
-arcpy.analysis.Intersect([buffers, structures_src], intersect_fc)
+arcpy.analysis.Intersect([buffers, structures], intersect_fc)
+print(f"✓ Intersected buffers with Structures → {intersect_fc}")
 
 # ----------------------------
-# 7) Export table to CSV
+# 7) Export intersection table
 # ----------------------------
-# Export *all* fields from the intersect result as a simple CSV (meets prompt)
 if arcpy.Exists(out_csv):
-    arcpy.management.Delete(out_csv)
+    os.remove(out_csv)
 arcpy.conversion.ExportTable(intersect_fc, out_csv)
-
+print("✓ Exported intersect attribute table to CSV")
 print("Done!")
 print(f" - GDB: {out_gdb}")
 print(f" - Intersect table: {intersect_fc}")
