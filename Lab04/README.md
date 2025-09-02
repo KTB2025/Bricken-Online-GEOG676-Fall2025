@@ -17,11 +17,9 @@ This script uses **ArcPy** to find which campus buildings fall within a user-def
 4) intersects the buffers with **Structures**, and  
 5) exports a tidy CSV of results.
 
-The workflow is designed to be **reproducible** and **robust** (safe overwrites, input validation, and flexible field export).
-
 ---
 
-## What the Script Does (Step-by-Step)
+## How it Works
 
 1. **CSV → Points (WGS 84)**  
    Reads `garages.csv` (required columns: `X`, `Y`, `Name`) and creates a `Garages` point feature class in `HW04.gdb` (SRID 4326).
@@ -47,13 +45,6 @@ The workflow is designed to be **reproducible** and **robust** (safe overwrites,
 
 ---
 
-## Requirements
-
-- **ArcGIS Pro** (ArcPy environment)  
-- Access to the provided **Campus.gdb** (with the `Structures` feature class)  
-- A CSV named **`garages.csv`** with columns: `X`, `Y`, `Name` (lon/lat assumed in WGS 84)
-
----
 
 ## How to Run
 
@@ -82,7 +73,7 @@ Final CSV columns depend on what exists in your data, but typically include:
 
 ---
 
-## Notes & Best Practices
+## Notes
 
 - **CRS & Units:** CSV coordinates are assumed **WGS 84 (lon/lat)**. The script **projects** garages to match **Structures** before buffering to keep **meter** buffers correct.
 - **Field Flexibility:** The script does **not** assume shapefile-style fields like `FID_Structures`. It exports whichever of `Name`, `BldgAbbr`, `BldgName`, `Address` exist, plus a stable ID.
