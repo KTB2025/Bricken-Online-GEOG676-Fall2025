@@ -4,7 +4,6 @@
 # Date: 08/31/2025
 # =============================================
 """
-Pipeline:
 1) Read garage XY + Name from CSV (assumed WGS84 lon/lat)
 2) Create a file GDB (if missing)
 3) Make a point feature class from the CSV
@@ -31,9 +30,7 @@ csv_file = os.path.join(workspace, "garages.csv")                      # expects
 structures_path = os.path.join(workspace, "Campus.gdb", "Structures")  # buildings feature class
 output_gdb = os.path.join(workspace, "HW04.gdb")
 
-# ----------------------------
-# Buffer distance (meters)
-# ----------------------------
+
 # ----------------------------
 # Buffer distance (meters)
 # ----------------------------
