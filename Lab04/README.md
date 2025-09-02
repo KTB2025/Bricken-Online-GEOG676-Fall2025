@@ -4,85 +4,94 @@
 **Course:** GEOG 676 — GIS Programming  
 **Assignment Due Date:** September 22, 2025  
 
-
 ---
 
 ## Overview
 
-This script uses **ArcPy** to find which campus buildings fall within a user-defined buffer distance of each TAMU parking garage. It:
-1) builds a point feature class from a CSV of garage coordinates,  
-2) projects those points to match the **Structures** layer,  
-3) creates buffers,  
-4) intersects the buffers with **Structures**, and  
-5) exports a tidy CSV of results.
+This script uses **ArcPy** to determine which TAMU campus buildings intersect with user-defined buffer zones around parking garages. It:
+
+1. Builds a point feature class from a CSV of garage coordinates  
+2. Projects garages to match the **Structures** layer  
+3. Creates buffers in meters  
+4. Intersects those buffers with **Structures**  
+5. Exports a clean results table as a CSV  
 
 ---
 
 ## How it Works
 
 1. **CSV → Points (WGS 84)**  
-   Reads `garages.csv` (required columns: `X`, `Y`, `Name`) and creates a `Garages` point feature class in `HW04.gdb` (SRID 4326).
+   Reads `garages.csv` (required columns: `X`, `Y`, `Name`) and creates a `Garages` feature class in `HW04.gdb` (WGS84, EPSG:4326).
 
 2. **Copy Structures**  
-   Copies `Campus.gdb/Structures` into `HW04.gdb` to ensure all processing occurs in the working geodatabase.
+   Copies `Campus.gdb/Structures` into `HW04.gdb` so all processing happens in one geodatabase.
 
 3. **Project Garages**  
-   Projects `Garages` to the **exact spatial reference** of `Structures` → `Garages_proj`. This ensures buffers in meters are correct.
+   Projects `Garages` into the same coordinate system as `Structures` → `Garages_proj` (ensures buffer units are correct).
 
 4. **Buffer**  
-   Buffers `Garages_proj` to `GarageBuffers` using the user-provided distance (e.g., `"100 Meters"`). Planar buffer is used.
+   Buffers `Garages_proj` → `GarageBuffers` using the user-provided distance in meters.
 
 5. **Intersect**  
    Intersects `GarageBuffers` with `Structures` → `GarageBuilding_Intersect`.
 
 6. **Export CSV**  
-   Exports a results table to `garage_building_intersections.csv`. It will include whichever of these fields are present:
-   - `Name` (garage name from CSV)  
-   - `BldgAbbr`, `BldgName`, `Address` (from Structures)  
-   - plus a stable identifier (e.g., `OBJECTID`) for traceability.  
-   The script also prints **all available fields** in the intersect output to the console.
+   Exports the attribute table from `GarageBuilding_Intersect` to `garage_building_intersections.csv`.
 
 ---
 
-
 ## How to Run
 
+1. Place the script in your `Lab04` folder alongside:
+   - `garages.csv` (with columns `X`, `Y`, `Name`)
+   - `Campus.gdb` (with the `Structures` feature class)
 
+2. Open the script in an IDE, such as Visual Code Studio:
+   "C:/Program Files/ArcGIS/Pro/bin/Python/envs/arcgispro-py3/python.exe" HW04Code.py
 
-## Expected Output 
+3. When prompted, enter a buffer distance in meters (e.g., 100).
 
-
+## Expected Output
+**Lab04 folder** containing:
+1. **HW04.gdb** containing:
+   - **Garages** (points from CSV)  
+   - **Structures** (copied from Campus.gdb)  
+   - **Garages_proj** (projected garages)  
+   - **GarageBuffers** (buffer polygons)  
+   - **GarageBuilding_Intersect** (intersected features)  
+2. **garage_building_intersections.csv** in the Lab04 folder with fields such as:
+   - **Name** (garage name from CSV)  
+   - **BldgAbbr, BldgName, Address** (if present in Structures)  
+   - A unique ID (e.g., **OBJECTID**)  
+3. **Campus.gdb**  & **garages.csv** - These were provided instead of created by the script.
 
 ---
 
 ## Notes
-
-- **CRS & Units:** CSV coordinates are assumed **WGS 84 (lon/lat)**. The script **projects** garages to match **Structures** before buffering to keep **meter** buffers correct.
-- **Field Flexibility:** The script does **not** assume shapefile-style fields like `FID_Structures`. It exports whichever of `Name`, `BldgAbbr`, `BldgName`, `Address` exist, plus a stable ID.
-- **Overwrites:** `arcpy.env.overwriteOutput = True`. Existing outputs in `HW04.gdb` (e.g., `Garages`, `Garages_proj`, `GarageBuffers`, `GarageBuilding_Intersect`) are safely deleted/recreated.
-- **Validation:** You’ll get clear errors if `garages.csv` is missing, `Structures` can’t be found, or the buffer distance isn’t numeric.
+- **Coordinate systems**: The CSV is assumed to be WGS84 (lon/lat). The script projects garages to match *Structures* before buffering.  
+- **Overwrite behavior**: Outputs are deleted/recreated automatically (`arcpy.env.overwriteOutput = True`).  
+- **Validation**: Script checks that `garages.csv` exists, has `X` and `Y` fields, and that `Campus.gdb/Structures` exists. It also validates the buffer distance input.  
 
 ---
 
 ## Troubleshooting
-
-- **“Missing CSV/FC” errors:** Check `workspace`, `csv_file`, and `structures_path` at the top of the script.
-- **Empty output:** Verify your buffer isn’t too small, and that garage points and buildings overlap spatially after projection.
-- **Field not found in CSV:** Ensure your CSV has exact headers `X`, `Y`, `Name`.
-- **No `BldgAbbr/BldgName` in CSV output:** Your Structures layer may use different field names. The script prints all intersect fields—adjust the preferred list if needed.
+- **“Missing CSV/FC” errors** → Check the paths at the top of the script.  
+- **Empty outputs** → Buffer distance may be too small; confirm garages overlap with buildings.  
+- **CSV header errors** → Ensure `garages.csv` has `X, Y, Name` columns.  
+- **Unexpected field names** → *Structures* may use different attributes; adjust the exported fields if necessary.  
 
 ---
 
 ## Screenshot of Script Execution
-
-> *(Insert your console or ArcGIS Pro messages screenshot here.)*
+*(Insert screenshot of console showing successful run.)*
 
 ---
 
 ## Submission Checklist
-
-- Python script (`.py`)
-- Geodatabase with outputs (`.gdb`)
-- Exported CSV (`.csv`)
-- Screenshots of executed script
-- Updated `README.md`
+- Python script (**HW04Code.py**)  
+- Geodatabase (**HW04.gdb**) with outputs  
+- Geodatabase (**Campus.gdb**) - Provided by course instructor
+- **Garages.csv** - CSV provided by course instructor
+- Exported CSV (**garage_building_intersections.csv**)  
+- Screenshots of script execution  
+- **README.md** with operations descriptions  
