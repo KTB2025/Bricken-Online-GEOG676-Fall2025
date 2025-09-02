@@ -47,28 +47,11 @@ This script uses **ArcPy** to find which campus buildings fall within a user-def
 
 ## How to Run
 
-**Option A — Prompted run (no args):**
-1. Open the **ArcGIS Pro Python** environment (or run inside Pro).
-2. Update the `workspace` path at the top of `HW4Code.py` if needed.
-3. Run `HW4Code.py`.  
-4. When prompted, enter a **buffer distance in meters** (e.g., `100`).
 
-**Option B — Command line with argument:**
 
-python HW4Code.py 150
+## Expected Output 
 
-This skips the prompt and uses 150 Meters.
 
-## Expected Output (example)
-
-Final CSV columns depend on what exists in your data, but typically include:
-
-| Name | BldgAbbr | BldgName            | Address                       | OBJECTID |
-|------|----------|---------------------|-------------------------------|----------|
-| CCG  | ACAD     | Academic Building   | 389 Houston St, College…      | 1021     |
-| NSG  | ENGLAB   | Engineering Lab     | 188 Bizzell St, College…      | 1044     |
-
-> The script prints the full list of fields found in the intersect so you can confirm what’s available.
 
 ---
 

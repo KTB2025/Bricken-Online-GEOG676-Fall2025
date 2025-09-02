@@ -3,16 +3,6 @@
 # Author: Kate Bricken
 # Date: 08/31/2025
 # =============================================
-"""
-1) Read garage XY + Name from CSV (assumed WGS84 lon/lat)
-2) Create a file GDB (if missing)
-3) Make a point feature class from the CSV
-4) Copy Structures into the same GDB
-5) Project garage points to the Structures' CRS (so meter buffers are correct)
-6) Buffer the projected garages by a user-specified distance (meters)
-7) Intersect buffers with Structures
-8) Export a tidy CSV of chosen fields (falling back gracefully)
-"""
 
 import arcpy
 import csv
