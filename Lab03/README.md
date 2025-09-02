@@ -74,11 +74,3 @@ This assignment demonstrates the use of **object-oriented programming (OOP)** in
 - This incredibly informative README.md file
 
 ---
-
-## Additional Resources Used
-
-- [Python OOP Docs](https://docs.python.org/3/tutorial/classes.html)
-- [Using `split()` for String Parsing](https://docs.python.org/3/library/stdtypes.html#str.split)
-- [Python Magic Methods (`__str__`, `__len__`)](https://rszalski.github.io/magicmethods/)
-
----

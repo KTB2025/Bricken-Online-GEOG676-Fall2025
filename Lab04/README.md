@@ -10,7 +10,6 @@
 ## Overview
 
 This script uses **ArcPy** to find which campus buildings fall within a user-defined buffer distance of each TAMU parking garage. It:
-
 1) builds a point feature class from a CSV of garage coordinates,  
 2) projects those points to match the **Structures** layer,  
 3) creates buffers,  
