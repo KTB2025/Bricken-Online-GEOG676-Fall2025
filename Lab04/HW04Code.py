@@ -63,3 +63,98 @@ buffer_str = f"{buffer_m} Meters"
  
 print(f"Buffer distance set to: {buffer_str}")
  
+ 
+# ----------------------------
+# CSV -> point feature class
+# ----------------------------
+sr_wgs84 = arcpy.SpatialReference(4326)
+garages = fr"{out_gdb}\Garages"
+ 
+if arcpy.Exists(garages):
+ 
+    arcpy.management.Delete(garages)
+ 
+arcpy.management.XYTableToPoint(
+ 
+    in_table=csv_file,
+ 
+    out_feature_class=garages,
+ 
+    x_field="X",
+ 
+    y_field="Y",
+ 
+    coordinate_system=sr_wgs84
+ 
+)
+ 
+print(f"Created garage points (WGS84): {garages}")
+ 
+# ----------------------------
+# Copy Structures
+# ----------------------------
+structures = fr"{out_gdb}\Structures"
+if not arcpy.Exists(structures):
+ 
+    arcpy.management.CopyFeatures(structures_src, structures)
+ 
+    print(f"Copied Structures into HW04.gdb: {structures}")
+ 
+else:
+ 
+    print("Structures already present in HW04.gdb")
+ 
+# ----------------------------
+# Project garages
+# ----------------------------
+sr_struct = arcpy.Describe(structures).spatialReference
+garages_proj = fr"{out_gdb}\Garages_proj"
+ 
+if arcpy.Exists(garages_proj):
+ 
+    arcpy.management.Delete(garages_proj)
+ 
+arcpy.management.Project(garages, garages_proj, sr_struct)
+ 
+print(f"Projected garages to: {sr_struct.name}")
+ 
+# ----------------------------
+# Buffer garages to the input distance
+# ----------------------------
+buffers = fr"{out_gdb}\GarageBuffers"
+ 
+if arcpy.Exists(buffers):
+ 
+    arcpy.management.Delete(buffers)
+ 
+arcpy.analysis.Buffer(garages_proj, buffers, buffer_str, dissolve_option="NONE")
+ 
+print(f"Buffered garages at {buffer_str}")
+ 
+# ----------------------------
+# Intersect buffers + structures to create an intersection feature class
+# ----------------------------
+intersect_fc = fr"{out_gdb}\GarageBuilding_Intersect"
+ 
+if arcpy.Exists(intersect_fc):
+ 
+    arcpy.management.Delete(intersect_fc)
+ 
+arcpy.analysis.Intersect([buffers, structures], intersect_fc)
+ 
+print(f"Intersected buffers with Structures → {intersect_fc}")
+# ----------------------------
+# Export the intersect feature class attribute table to the results geodatabase and print the output location and type
+# ----------------------------
+arcpy.conversion.ExportTable(intersect_fc, out_csv)
+ 
+print("Exported the intersect feature class attribute table to a CSV")
+ 
+print("Done!")
+ 
+print(f" - GDB: {out_gdb}")
+ 
+print(f" - Intersect table: {intersect_fc}")
+ 
+print(f" - CSV: {out_csv}")
+ 
