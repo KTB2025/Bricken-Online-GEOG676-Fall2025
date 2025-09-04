@@ -23,20 +23,43 @@ arcpy.management.CreateFolder(
     out_folder_path=r"C:\Mac\Home\Documents\FallWorkSpace\Bricken-Online-GEOG676-Fall2025",
     out_name="Lab04\\results"
 )
+
 print(f"Created clean results folder: {output_workspace}")
  
 # ----------------------------
-# Inputs
+# Inputs in the data workspace
 # ----------------------------
 csv_file       = fr"{input_workspace}\garages.csv"
 structures_src = fr"{input_workspace}\Campus.gdb\Structures"
  
 # ----------------------------
-# Output GDB
+# Create output gdb and make sure it is empty 
 # ----------------------------
 out_gdb = fr"{output_workspace}\HW04.gdb"
 out_csv = fr"{output_workspace}\garage_building_intersections.csv"
- 
+
 arcpy.management.CreateFileGDB(output_workspace, "HW04.gdb")
 print(f"Created fresh geodatabase: {out_gdb}")
+
+# ----------------------------
+# Get buffer distance (meters)
+# ----------------------------
+ 
+while True:
+ 
+    raw = input("Enter buffer distance in meters (e.g., 100): ").strip()
+ 
+    try:
+ 
+        buffer_m = abs(float(raw))
+ 
+        break
+ 
+    except ValueError:
+ 
+        print(f"Please enter a number (you typed: {raw!r}).")
+ 
+buffer_str = f"{buffer_m} Meters"
+ 
+print(f"Buffer distance set to: {buffer_str}")
  
