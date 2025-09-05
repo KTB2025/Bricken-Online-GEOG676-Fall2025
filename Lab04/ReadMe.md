@@ -54,7 +54,7 @@ Script Pipeline:
 
 2. Run with ArcGIS Pro’s Python:
    OR
-   Open the script in an IDE, such as Visual Code Studio:
+   Open the script in an IDE, such as Visual Studio Code:
    "C:/Program Files/ArcGIS/Pro/bin/Python/envs/arcgispro-py3/python.exe" HW04Code.py
  
 3. When prompted, enter a buffer distance in meters (e.g., 100).
