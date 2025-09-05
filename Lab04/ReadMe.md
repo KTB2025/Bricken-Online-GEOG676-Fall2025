@@ -91,12 +91,12 @@ Script Pipeline:
 ---
  
 ## Screenshot of Script Execution
-![HW05 Screenshot #1](C:\Mac\Home\Documents\FallWorkSpace\Bricken-Online-GEOG676-Fall2025\Lab04\Bricken_GEOG676_HW4.png)
-![HW05 Screenshot #2](C:\Mac\Home\Documents\FallWorkSpace\Bricken-Online-GEOG676-Fall2025\Lab04\Bricken_GEOG676_HW4_2.png)
-![HW05 Screenshot #3](C:\Mac\Home\Documents\FallWorkSpace\Bricken-Online-GEOG676-Fall2025\Lab04\Bricken_GEOG676_HW4_3.png)
-![HW05 Screenshot #4](C:\Mac\Home\Documents\FallWorkSpace\Bricken-Online-GEOG676-Fall2025\Lab04\Bricken_GEOG676_HW4_4.png)
-![HW05 Screenshot #5](C:\Mac\Home\Documents\FallWorkSpace\Bricken-Online-GEOG676-Fall2025\Lab04\Bricken_GEOG676_HW4_5.png)
-![HW05 Screenshot #6](C:\Mac\Home\Documents\FallWorkSpace\Bricken-Online-GEOG676-Fall2025\Lab04\Bricken_GEOG676_HW4_6.png)
+![HW05 Screenshot #1](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/68bc56fe6076a0af214719b0f2cf5d4aafbb4cf9/Lab04/Bricken_GEOG676_HW4.png)
+![HW05 Screenshot #2](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/68bc56fe6076a0af214719b0f2cf5d4aafbb4cf9/Lab04/Bricken_GEOG676_HW4_2.png)
+![HW05 Screenshot #3](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/68bc56fe6076a0af214719b0f2cf5d4aafbb4cf9/Lab04/Bricken_GEOG676_HW4_3.png)
+![HW05 Screenshot #4](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/68bc56fe6076a0af214719b0f2cf5d4aafbb4cf9/Lab04/Bricken_GEOG676_HW4_4.png)
+![HW05 Screenshot #5](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/68bc56fe6076a0af214719b0f2cf5d4aafbb4cf9/Lab04/Bricken_GEOG676_HW4_5.png)
+![HW05 Screenshot #6](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/68bc56fe6076a0af214719b0f2cf5d4aafbb4cf9/Lab04/Bricken_GEOG676_HW4_6.png)
 
 
 
