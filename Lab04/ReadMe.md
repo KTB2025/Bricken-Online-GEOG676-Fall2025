@@ -91,7 +91,17 @@ Script Pipeline:
 ---
  
 ## Screenshot of Script Execution
-*(Insert screenshot of console showing successful run.)*
+![HW05 Screenshot #1](C:\Mac\Home\Documents\FallWorkSpace\Bricken-Online-GEOG676-Fall2025\Lab04\Bricken_GEOG676_HW4.png)
+![HW05 Screenshot #2](C:\Mac\Home\Documents\FallWorkSpace\Bricken-Online-GEOG676-Fall2025\Lab04\Bricken_GEOG676_HW4_2.png)
+![HW05 Screenshot #3](C:\Mac\Home\Documents\FallWorkSpace\Bricken-Online-GEOG676-Fall2025\Lab04\Bricken_GEOG676_HW4_3.png)
+![HW05 Screenshot #4](C:\Mac\Home\Documents\FallWorkSpace\Bricken-Online-GEOG676-Fall2025\Lab04\Bricken_GEOG676_HW4_4.png)
+![HW05 Screenshot #5](C:\Mac\Home\Documents\FallWorkSpace\Bricken-Online-GEOG676-Fall2025\Lab04\Bricken_GEOG676_HW4_5.png)
+![HW05 Screenshot #6](C:\Mac\Home\Documents\FallWorkSpace\Bricken-Online-GEOG676-Fall2025\Lab04\Bricken_GEOG676_HW4_6.png)
+
+
+
+
+
  
 ---
  
