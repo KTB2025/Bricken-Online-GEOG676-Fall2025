@@ -3,6 +3,8 @@
 # Author: Kate Bricken
 # Date: 09/02/2025
 # =============================================
+
+# -*- coding: utf-8 -*-
 import arcpy
 
 class Toolbox(object):
@@ -22,6 +24,9 @@ class tool(object):
         self.canRunInBackground = False
         self.category = "Building Tools"
 
+    # ----------------------------
+    # Parameters
+    # ----------------------------
     def getParameterInfo(self):
         """Define parameter definitions"""
         param0 = arcpy.Parameter(
@@ -53,14 +58,14 @@ class tool(object):
             direction="Input"
         )
         param4 = arcpy.Parameter(
-            displayName="Campus GDB",
-            name="Campus GDB",
-            datatype="DEType",
+            displayName="CampusGDB",
+            name="CampusGDB",
+            datatype="DEWorkspace",
             parameterType="Required",
             direction="Input"
         )
         param5 = arcpy.Parameter(
-            displayName="Buffer Distance",
+            displayName="Buffer Distance (meters)",
             name="BufferDistance",
             datatype="GPDouble",
             parameterType="Required",
@@ -84,41 +89,56 @@ class tool(object):
         """Modify the messages created by internal validation for each tool
         parameter. This method is called after internal validation."""
         return
+    
+    # ----------------------------
+    # Execute
+    # ----------------------------
 
     def execute(self, parameters, messages):
         """The source code of the tool."""
+
+
+        #Create output geodatabase
+        arcpy.CreateFileGDB_management(folder_path, gdb_name)
+
+        #Inputs from parameters
         folder_path = parameters[0].valueAsText
         gdb_name = parameters[1].valueAsText
         gdb_path = folder_path + '\\' + gdb_name
-        arcpy.CreateFileGDB_management(folder_path, gdb_name)
 
         csv_path = parameters[2].valueAsText
         garage_layer_name = parameters[3].valueAsText
         garages = arcpy.MakeXYEventLayer_management(csv_path, 'X', 'Y', garage_layer_name)
 
+
+
+        #Save inputs into the geodatabase
         input_layer = garages
         arcpy.FeatureClassToGeodatabase_conversion(input_layer, gdb_path)
         garage_points = gdb_path + '\\' + garage_layer_name
 
-        campus = parameters[4].valueAsText
-        buildings_campus = campus + '\\Structures'
+
+        # Copy Structures from Campus.gdb into the HW05 output gdb
+        campus_gdb = parameters[4].valueAsText
+        campus_buildings = campus_gdb + '\\Structures'
         buildings = gdb_path + '\\' + 'Buildings'
+        arcpy.Copy_management(campus_buildings, buildings)
 
-        arcpy.Copy_management(buildings_campus, buildings)
 
+        #Project garage points to match the Structures file
         spatial_ref = arcpy.Describe(buildings).spatialReference
-        arcpy.Project_management(garage_points, gdb_path + '\\Garage_Points_reprojected', spatial_ref)
+        arcpy.Project_management(garage_points, gdb_path + '\\Garage_Points_Reprojected', spatial_ref)
 
+
+        # Buffer garages (use parameter distance, meters)
         buffer_distance = int(parameters[5].value)
-        arcpy.Buffer_analysis(gdb_path + '\\Garage_Points_reprojected', gdb_path + '\\Garage_Points_buffered', 150)
+        arcpy.Buffer_analysis(gdb_path + '\\Garage_Points_Reprojected', gdb_path + '\\Garage_Points_Buffered', buffer_distance)
 
-        arcpy.Intersect_analysis([gdb_path + '\\Garage_Points_buffered', buildings], gdb_path + '\\Garage_Buildings_Intersection', 'ALL')
-
-        arcpy.TableToTable_conversion(gdb_path + '\\Garage_Buildings_Intersection', 'dbf', r'C:\\Users\\slockhart0192\\Desource\\slockhart-Geog676\\Lab5', 'nearbyBuildings')
+        # Intersect buffers with buildings
+        arcpy.Intersect_analysis([gdb_path + '\\Garage_Points_Buffered', buildings], gdb_path + '\\Garage_Buildings_Intersection', 'ALL')
+        
+        # Export table to CSV (drop in the chosen folder)
+        arcpy.TableToTable_conversion(gdb_path + '\\Garage_Buildings_Intersection', 'dbf', r'C:\Mac\Home\Documents\FallWorkSpace\Bricken-Online-GEOG676-Fall2025\Lab05', 'nearbyBuildings')
 
         return None
 
-def postExecute(self, parameters):
-        """This method takes place after outputs are processed and
-        added to the display."""
-        return

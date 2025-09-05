@@ -7,45 +7,54 @@
 ---
  
 ## Overview
-This script uses **ArcPy** to determine which TAMU campus buildings intersect with user defined buffer zones around parking garages. It:
- 
-1. Builds a point feature class from a CSV of garage coordinates  
-2. Projects garages to match the **Structures** layer  
-3. Creates buffers in meters  
-4. Intersects those buffers with **Structures**  
-5. Exports a clean results table as a CSV  
+This script uses **ArcPy** to determine which TAMU campus buildings intersect with user defined buffer zones around parking garages. It runs reproducibly by resetting a clean results/ folder each time.
+
+Script Pipeline:
+1. Builds a point feature class from a CSV of garage coordinates 
+2. Copy **Structures** into a working GDB 
+3. Projects garages to match the **Structures** layer  
+4. Creates buffers from a user input in meters  
+5. Intersects those buffers with **Structures**  
+6. Exports a clean results table as a CSV  
  
 ---
  
+
+---
+
 ## How it Works
- 
-1. **CSV → Points (WGS 84)**  
-   Reads `garages.csv` (required columns: `X`, `Y`, `Name`) and creates a `Garages` feature class in `HW04.gdb` (WGS84, EPSG:4326).
- 
+
+1. **CSV → Points (WGS84)**  
+   Reads `data/garages.csv` (expects columns `X`, `Y`, `Name`) and creates `Garages` in `results/HW04.gdb` with `SpatialReference(4326)`.
+
 2. **Copy Structures**  
-   Copies `Campus.gdb/Structures` into `HW04.gdb` so all processing happens in one geodatabase.
- 
+   Copies `data/Campus.gdb/Structures` into `results/HW04.gdb` so all processing occurs in one geodatabase.
+
 3. **Project Garages**  
-   Projects `Garages` into the same coordinate system as `Structures` → `Garages_proj` (ensures buffer units are correct).
- 
+   Projects `Garages` to the **same coordinate system as `Structures`** → `Garages_proj` (so buffer units are correct).
+
 4. **Buffer**  
-   Buffers `Garages_proj` → `GarageBuffers` using the user provided distance in meters.
- 
+   Buffers `Garages_proj` → `GarageBuffers` using a user-provided distance like `100 Meters`.
+
 5. **Intersect**  
    Intersects `GarageBuffers` with `Structures` → `GarageBuilding_Intersect`.
- 
+
 6. **Export CSV**  
-   Exports the attribute table from `GarageBuilding_Intersect` to `garage_building_intersections.csv`.
- 
+   Exports the `GarageBuilding_Intersect` attribute table to `results/garage_building_intersections.csv`.
+
+*(The script deletes and recreates `results/` and `HW04.gdb` on each run.)*
+
 ---
- 
+
 ## How to Run
- 
-1. Place the script in your `Lab04` folder alongside:
-   - `garages.csv` (with columns `X`, `Y`, `Name`)
-   - `Campus.gdb` (with the `Structures` feature class)
- 
-2. Open the script in an IDE, such as Visual Code Studio:
+
+1. Ensure inputs are in `Lab04/data/`:
+   - `garages.csv` with columns **X, Y, Name**
+   - `Campus.gdb` containing **Structures**
+
+2. Run with ArcGIS Pro’s Python:
+   OR
+   Open the script in an IDE, such as Visual Code Studio:
    "C:/Program Files/ArcGIS/Pro/bin/Python/envs/arcgispro-py3/python.exe" HW04Code.py
  
 3. When prompted, enter a buffer distance in meters (e.g., 100).
@@ -70,7 +79,7 @@ This script uses **ArcPy** to determine which TAMU campus buildings intersect wi
 - **Coordinate systems**: The CSV is assumed to be WGS84 (lon/lat). The script projects garages to match *Structures* before buffering.  
 - **Overwrite behavior**: Outputs are deleted/recreated automatically (`arcpy.env.overwriteOutput = True`).  
 - **Validation**: Script checks that `garages.csv` exists, has `X` and `Y` fields, and that `Campus.gdb/Structures` exists. It also validates the buffer distance input.  
- 
+- **Outcome demo**: After export, the script uses a *SearchCursor* (iterator) and a *set* (container) to report the count of unique intersected buildings.
 ---
  
 ## Troubleshooting

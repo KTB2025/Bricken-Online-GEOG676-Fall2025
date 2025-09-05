@@ -1,6 +1,9 @@
+# =============================================
 # TAMU GIS Programming: Homework 02 - Arithmetic in Python / Fun With Loops
 # Author: Kate Bricken
 # Date: 08/31/2025
+# =============================================
+
 
 # -------------------------------
 # Part 1 - Take the following list and multiply all list items together.
