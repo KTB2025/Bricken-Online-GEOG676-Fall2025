@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?><messages><msg code="0" type="2">Start Time: Saturday, September 6, 2025 6:14:41 AM</msg><msg code="0" type="0">Preparing inputs…</msg><msg code="0" type="0">Garage buffers → C:\Mac\Home\Documents\FallWorkSpace\Bricken-Online-GEOG676-Fall2025\Lab05\HW05.gdb\Garage_Buffers</msg><msg code="1" type="100">﻿Traceback (most recent call last):
+﻿  File "&lt;string&gt;", line 126, in execute
+﻿  File "C:\Program Files\ArcGIS\Pro\Resources\ArcPy\arcpy\analysis.py", line 778, in Intersect
+﻿    raise e
+﻿  File "C:\Program Files\ArcGIS\Pro\Resources\ArcPy\arcpy\analysis.py", line 772, in Intersect
+﻿    gp.Intersect_analysis(
+﻿  File "C:\Program Files\ArcGIS\Pro\Resources\ArcPy\arcpy\geoprocessing\_base.py", line 533, in &lt;lambda&gt;
+﻿    return lambda *args: val(*gp_fixargs(args, True))
+﻿                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+﻿arcgisscripting.ExecuteError: Failed to execute. Parameters are not valid.
+ERROR 000732: Input Features: Dataset C:\Mac\Home\Documents\FallWorkSpace\Bricken-Online-GEOG676-Fall2025\Lab05\HW05.gdb\Garage_Buffers does not exist or is not supported
+ERROR 000354: The name contains invalid characters
+Failed to execute (Intersect).
+
+</msg><msg code="-2147467259" type="100">Failed to execute (BuildingProximity).</msg><msg code="0" type="3">Failed at Saturday, September 6, 2025 6:14:43 AM (Elapsed Time: 2.20 seconds)</msg></messages>

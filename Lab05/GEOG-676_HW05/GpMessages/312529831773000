@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?><messages><msg code="0" type="2">Start Time: Saturday, September 6, 2025 6:03:47 AM</msg><msg code="0" type="0">Preparing inputs…</msg><msg code="0" type="0">Reprojected garage points to NAD_1983_StatePlane_Texas_Central_FIPS_4203.</msg><msg code="1" type="100">﻿Traceback (most recent call last):
+﻿  File "&lt;string&gt;", line 110, in execute
+﻿  File "C:\Program Files\ArcGIS\Pro\Resources\ArcPy\arcpy\analysis.py", line 1772, in Buffer
+﻿    raise e
+﻿  File "C:\Program Files\ArcGIS\Pro\Resources\ArcPy\arcpy\analysis.py", line 1754, in Buffer
+﻿    gp.Buffer_analysis(
+﻿  File "C:\Program Files\ArcGIS\Pro\Resources\ArcPy\arcpy\geoprocessing\_base.py", line 533, in &lt;lambda&gt;
+﻿    return lambda *args: val(*gp_fixargs(args, True))
+﻿                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+﻿arcgisscripting.ExecuteError: Failed to execute. Parameters are not valid.
+ERROR 000732: Input Features: Dataset C:\Mac\Home\Documents\FallWorkSpace\Bricken-Online-GEOG676-Fall2025\Lab05\HW05.gdb\Garage_Points_Reprojected does not exist or is not supported
+Failed to execute (Buffer).
+
+</msg><msg code="-2147467259" type="100">Failed to execute (BuildingProximity).</msg><msg code="0" type="3">Failed at Saturday, September 6, 2025 6:03:51 AM (Elapsed Time: 4.43 seconds)</msg></messages>
