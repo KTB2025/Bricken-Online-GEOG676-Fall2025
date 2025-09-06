@@ -86,7 +86,11 @@ The outputs will include:
 
 ## Screenshot of the Tool Operating in ArcGIS Pro
 
-![HW05 Screenshot #1]() 
+![HW05 Screenshot #1](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/4be347d15da83d5021507abcde6e67d4ef824516/Lab05/Bricken_GEOG676_HW5.png)
+![HW05 Screenshot #2](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/4be347d15da83d5021507abcde6e67d4ef824516/Lab05/Bricken_GEOG676_HW5_2.png)
+![HW05 Screenshot #3](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/4be347d15da83d5021507abcde6e67d4ef824516/Lab05/Bricken_GEOG676_HW5_3.png)
+
+
 ---
 
 ## Submission Items
