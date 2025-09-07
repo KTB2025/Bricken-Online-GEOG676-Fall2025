@@ -58,10 +58,10 @@ This assignment demonstrates the use of **object-oriented programming (OOP)** in
 
 ## Screenshot of Executed Code
 
-![HW03 Screenshot #1](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/main/Lab03/Bricken_GEOG676_HW3.png?raw=true)
-![HW03 Screenshot #2](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/main/Lab03/Bricken_GEOG676_HW3_2.png?raw=true)
-![HW03 Screenshot #3](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/main/Lab03/Bricken_GEOG676_HW3_3.png?raw=true)
-![HW03 Screenshot #4](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/main/Lab03/Bricken_GEOG676_HW3_4.png?raw=true)
+![HW03 Screenshot #1](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/main/Lab03/Images/Bricken_GEOG676_HW3.png?raw=true)
+![HW03 Screenshot #2](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/main/Lab03/Images/Bricken_GEOG676_HW3_2.png?raw=true)
+![HW03 Screenshot #3](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/main/Lab03/Images/Bricken_GEOG676_HW3_3.png?raw=true)
+![HW03 Screenshot #4](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/main/Lab03/Images/Bricken_GEOG676_HW3_4.png?raw=true)
 
 ---
 
