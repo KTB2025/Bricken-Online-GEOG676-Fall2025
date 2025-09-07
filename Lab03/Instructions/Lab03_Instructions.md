@@ -1,0 +1,37 @@
+TAMU GIS Programming: Homework 03
+Topic: Fun with object oriented programming 100 pt
+
+Outcomes:
+Learn how to open, read from, and write to a text file using python.
+Learn how to create classs and objects.
+Learn some of the built-in python functions.
+Go over the bacis of Object Oriented Programming(OOP).
+Task:
+Read data in from the provided text file found here (20pt)
+Create a class for each shape found in the text file (20pt)
+For each line, create a new object determined by the shape (e.g. Triangle object for line Triangle,8,1 base and height) (30pt)
+Iterate through your list and print out the area for each shape (30pt)
+To Hand In:
+Link to your Github page that contains the Python code
+Screenshot of Executed Code Printout
+Fun with OOP
+In this homework assignment, you'll be utilizing object oriented programming in order to calculate the area of each shape in a text file. Below you will find some hints but it is up to you to finish the rest. Once you have written the Python code necessary to complete each part, be sure to commit and push your work to your TAMU Github account.
+
+Hints
+Example shape class
+You'll want to use a class like this in order to create your objects and calculate the area of each shape.
+
+class Rectangle(Shape):
+    def __init__(self, l, w):
+        self.l = l
+        self.w = w
+    def getArea(self):
+        return self.l * self.w
+Separating the line
+In order to separate out the information found on each line of the file, use the string method split(). This method takes a single parameter, the character you want to split a string with. This method returns a list containing the different parts of the string after splitting.
+
+tamu = "Texas A&M University"
+
+tokens = tamu.split(" ") # We split our string on whitespace
+print(len(tokens)) # Prints 3 since we have three components
+print(tokens) # Prints ["Texas", "A&M", "University"]
