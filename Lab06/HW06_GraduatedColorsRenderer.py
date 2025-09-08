@@ -46,46 +46,55 @@ class GraduatedColorsRenderer:
         p0.filter.list = ['aprx']
 
         p1 = arcpy.Parameter(
-            displayName="Layer to Classify",
-            name="Class_field",
+            displayName="Classification Layer (feature layer in map)",
+            name="in_layer",
             datatype="GPFeatureLayer",
             parameterType="Required",
             direction="Input")
         
         p2 = arcpy.Parameter(
+            displayName="Classification Field (numeric field)",
+            name="Class_field",
+            datatype="Field",
+            parameterType="Required",
+            direction="Input")
+        p2.parameterDependencies = [p1.name] 
+        # limit to numeric types
+        p2.filters.list = ["Short", "Long", "Float", "Double"]
+                
+        p3 = arcpy.Parameter(
             displayName="Break Count",
             name="Break_Count",
             datatype="GPLong",
             parameterType="Required",
             direction="Input")
-        p2.filter.type = "Range"
-        p2.filter.list = [3,9]  #Set min and max values for break count
-        p2.value = 5  #Set default value for break count
+        p3.filter.type = "Range"
+        p3.filter.list = [3,9]  #Set min and max values for break count
+        p3.value = 5  #Set default value for break count
         
-        p3 = arcpy.Parameter(
+        p4 = arcpy.Parameter(
             displayName="Color Ramp Name",
             name="ColorRampName",
             datatype="GPString",
             parameterType="Optional",
             direction="Input")
-        p3.value = "Green (5 Classes)"  #Update with a different default color ramp name 
+        p4.value = "Greens (5 Classes)"  #Update with a different default color ramp name 
 
-        p4 = arcpy.Parameter(
+        p5 = arcpy.Parameter(
             displayName="Output Folder",
             name="Out_Folder",
             datatype="DEFolder",
             parameterType="Required",
             direction="Input")
 
-        p5 = arcpy.Parameter(
+        p6 = arcpy.Parameter(
             displayName="Output Project Name (no .aprx)",
-            name="Out_ Name",
+            name="Out_Name",
             datatype="GPString",
             parameterType="Required",
             direction="Input")
 
-        return [p0, p1, p2, p3, p4, p5]
-      
+        return [p0, p1, p2, p3, p4, p5, p6]
 
     def isLicensed(self):
         """Set whether the tool is licensed to execute."""
@@ -107,71 +116,58 @@ class GraduatedColorsRenderer:
     # ----------------------------
 
     def execute(self, parameters, messages):
-        aprx_path = parameters[0].valueAsText
-        in_layer = parameters[1].value  # GPFeatureLayer reference
-        break_count = int(parameters[2].value)
-        ramp_name = parameters[3].valueAsText or f"Oranges ({break_count} Classes)"
-        out_folder = parameters[4].valueAsText
-        out_name = parameters[5].valueAsText.strip()
-        out_aprx = os.path.join(out_folder, f"{out_name}.aprx")
+        """The source code of the tool."""
+        aprx_path  = parameters[0].valueAsText
+        layer      = parameters[1].value              # GPFeatureLayer
+        class_fld  = parameters[2].valueAsText        # selected numeric field
+        break_cnt  = int(parameters[3].value)
+        ramp_name  = parameters[4].valueAsText or f"Greens ({break_cnt} Classes)"
+        out_folder = parameters[5].valueAsText
+        out_name   = (parameters[6].valueAsText or "").strip().removesuffix(".aprx")
+        out_aprx   = os.path.join(out_folder, f"{out_name}.aprx")
 
-        # ----------------------------
-        # Progressor
-        # ----------------------------
-
-        # Progressor setup
-        readTime = 1.0
-        start = 0
-        maximum = 100
-        step = 25
+            # progressor (unchanged)
+        readTime, start, maximum, step = 1.0, 0, 100, 25
         arcpy.SetProgressor("step", "Opening project…", start, maximum, step)
         time.sleep(readTime)
-
         arcpy.AddMessage("Opening project…")
+
         project = arcpy.mp.ArcGISProject(aprx_path)
 
-        # Try to resolve the map that contains the chosen layer
         arcpy.SetProgressorPosition(start + step)
         arcpy.SetProgressorLabel("Locating layer in map…")
         time.sleep(readTime)
         arcpy.AddMessage("Locating layer in map…")
 
-        # The GPFeatureLayer parameter already points to the live layer in the map, but we still need its symbology via the layer object.
-        layer = in_layer
-
         if not getattr(layer, "isFeatureLayer", False):
-            raise arcpy.ExecuteError("Selected input is not a feature layer.")
+                raise arcpy.ExecuteError("Selected input is not a feature layer.")
 
-        sym = layer.symbology
-        if not hasattr(sym, "renderer"):
-            raise arcpy.ExecuteError("Selected layer does not support a renderer.")
+        symbology = layer.symbology
+        if not hasattr(symbology, "renderer"):
+                raise arcpy.ExecuteError("Selected layer does not support a renderer.")
 
-        # Apply Graduated Colors renderer
         arcpy.SetProgressorPosition(start + step*2)
         arcpy.SetProgressorLabel("Applying Graduated Colors…")
         time.sleep(readTime)
         arcpy.AddMessage("Applying Graduated Colors…")
 
-        sym.updateRenderer("GraduatedColorsRenderer")
+            # renderer + your parameters
+        symbology.updateRenderer("GraduatedColorsRenderer")
+        symbology.renderer.classificationField = class_fld
+            # clamp break count to your allowed range just in case
+        break_cnt = max(3, min(9, break_cnt))
+        symbology.renderer.breakCount = break_cnt
 
-        # Classification field — lab uses GarageParking.Shape_Area
-        # (Adjust if your layer uses a different numeric field.)
-        sym.renderer.classificationField = "Shape_Area"
-
-        sym.renderer.breakCount = break_count
-
-        # Try to find a ramp by name; fall back to first available multi-class ramp
         ramps = project.listColorRamps(ramp_name)
         if not ramps:
-            ramps = project.listColorRamps()  # any
+                arcpy.AddWarning(f"Color ramp '{ramp_name}' not found; using first available.")
+                ramps = project.listColorRamps()
         if not ramps:
-            raise arcpy.ExecuteError("No color ramps available in this project.")
-        sym.renderer.colorRamp = ramps[0]
+                raise arcpy.ExecuteError("No color ramps available in this project.")
+        symbology.renderer.colorRamp = ramps[0]
 
-        # Commit symbology back to the layer
-        layer.symbology = sym
+        layer.symbology = symbology
 
-        # Save a copy of the project
         arcpy.SetProgressorPosition(start + step*3)
         arcpy.SetProgressorLabel("Saving a copy of the project…")
         time.sleep(readTime)
