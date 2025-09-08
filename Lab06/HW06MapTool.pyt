@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 import arcpy
 import os
 import time
@@ -72,7 +71,7 @@ class GraduatedColorsRenderer:
             datatype="GPString",
             parameterType="Optional",
             direction="Input")
-        p4.value = "Greens (5 Classes)"  #Update with a different default color ramp name 
+        p4.value = "Greens (5 Classes)"  #Update with a different default color ramp name
 
         p5 = arcpy.Parameter(
             displayName="Output Folder",
@@ -112,15 +111,15 @@ class GraduatedColorsRenderer:
     def execute(self, parameters, messages):
         """The source code of the tool."""
         aprx_path  = parameters[0].valueAsText
-        layer      = parameters[1].value              # GPFeatureLayer
-        class_fld  = parameters[2].valueAsText        # selected numeric field
+        layer      = parameters[1].value              
+        class_fld  = parameters[2].valueAsText        
         break_cnt  = int(parameters[3].value)
         ramp_name  = parameters[4].valueAsText or f"Greens ({break_cnt} Classes)"
         out_folder = parameters[5].valueAsText
         out_name   = (parameters[6].valueAsText or "").strip().removesuffix(".aprx")
         out_aprx   = os.path.join(out_folder, f"{out_name}.aprx")
 
-            # progressor (unchanged)
+        # progressor 
         readTime, start, maximum, step = 1.0, 0, 100, 25
         arcpy.SetProgressor("step", "Opening project…", start, maximum, step)
         time.sleep(readTime)
@@ -128,37 +127,63 @@ class GraduatedColorsRenderer:
 
         project = arcpy.mp.ArcGISProject(aprx_path)
 
-        arcpy.SetProgressorPosition(start + step)
-        arcpy.SetProgressorLabel("Locating layer in map…")
-        time.sleep(readTime)
-        arcpy.AddMessage("Locating layer in map…")
+        # Use the selected layer’s name to find the matching layer inside the loaded APRX
+        target_name = layer.name
 
-        if not getattr(layer, "isFeatureLayer", False):
-                raise arcpy.ExecuteError("Selected input is not a feature layer.")
+        target_in_aprx = None
+        for m in project.listMaps():  
+            for lyr in m.listLayers():
+                if getattr(lyr, "isFeatureLayer", False) and lyr.name == target_name:
+                    target_in_aprx = lyr
+                    break
+            if target_in_aprx:
+                break
 
-        symbology = layer.symbology
+        if not target_in_aprx:
+            arcpy.AddWarning(f"Could not find a layer named '{target_name}' in {aprx_path}. "
+                            "Applying changes to the live layer only; saved copy may look empty.")
+            target_in_aprx = layer  # fall back so user still sees results in-session
+    
+        # Safety checks on the target layer
+        if not getattr(target_in_aprx, "isFeatureLayer", False):
+            raise arcpy.ExecuteError("Selected input is not a feature layer.")
+
+        symbology = target_in_aprx.symbology
         if not hasattr(symbology, "renderer"):
-                raise arcpy.ExecuteError("Selected layer does not support a renderer.")
+            raise arcpy.ExecuteError("Selected layer does not support a renderer.")
 
         arcpy.SetProgressorPosition(start + step*2)
         arcpy.SetProgressorLabel("Applying Graduated Colors…")
         time.sleep(readTime)
         arcpy.AddMessage("Applying Graduated Colors…")
 
-            # renderer + your parameters
+        # Apply renderer + parameters
         symbology.updateRenderer("GraduatedColorsRenderer")
         symbology.renderer.classificationField = class_fld
-            # clamp break count to your allowed range just in case
-        break_cnt = max(3, min(9, break_cnt))
-        symbology.renderer.breakCount = break_cnt
+        symbology.renderer.breakCount = max(3, min(9, break_cnt))
 
         ramps = project.listColorRamps(ramp_name)
         if not ramps:
-                arcpy.AddWarning(f"Color ramp '{ramp_name}' not found; using first available.")
-                ramps = project.listColorRamps()
+            arcpy.AddWarning(f"Color ramp '{ramp_name}' not found; using first available.")
+            ramps = project.listColorRamps()
         if not ramps:
-                raise arcpy.ExecuteError("No color ramps available in this project.")
+            raise arcpy.ExecuteError("No color ramps available in this project.")
         symbology.renderer.colorRamp = ramps[0]
+
+        # Commit back to the layer (in the APRX or the live layer if not found)
+        target_in_aprx.symbology = symbology
+
+        # Update the live layer so the current map view updates even if names mismatch
+        if target_in_aprx is not layer:
+            try:
+                live_sym = layer.symbology
+                live_sym.updateRenderer("GraduatedColorsRenderer")
+                live_sym.renderer.classificationField = class_fld
+                live_sym.renderer.breakCount = symbology.renderer.breakCount
+                live_sym.renderer.colorRamp = symbology.renderer.colorRamp
+                layer.symbology = live_sym
+            except Exception:
+                pass
 
         layer.symbology = symbology
 

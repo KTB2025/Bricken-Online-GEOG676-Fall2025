@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?><messages><msg code="0" type="2">Start Time: Monday, September 8, 2025 6:16:35 AM</msg><msg code="0" type="0">Opening project…</msg><msg code="0" type="0">Locating layer in map…</msg><msg code="1" type="100">﻿Traceback (most recent call last):
+﻿  File "&lt;string&gt;", line 137, in execute
+﻿arcgisscripting.ExecuteError: Selected input is not a feature layer.
+</msg><msg code="-2147467259" type="100">Failed to execute (GraduatedColorsRenderer).</msg><msg code="0" type="3">Failed at Monday, September 8, 2025 6:16:38 AM (Elapsed Time: 3.02 seconds)</msg></messages>
