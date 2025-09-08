@@ -1,3 +1,9 @@
+# =============================================
+# TAMU GIS Programming: Homework 06 - Map Generation Toolbox
+# Author: Kate Bricken
+# Date: 09/08/2025
+# =============================================
+
 # -*- coding: utf-8 -*-
 
 import arcpy
@@ -25,6 +31,9 @@ class GraduatedColorsRenderer:
         self.canRunInBackground = False
         self.category = "Map Creation Tools"
 
+    # ----------------------------
+    # Parameters
+    # ----------------------------
 
     def getParameterInfo(self):
         """Define the tool parameters."""
@@ -39,16 +48,19 @@ class GraduatedColorsRenderer:
         p1 = arcpy.Parameter(
             displayName="Layer to Classify",
             name="Class_field",
-            datatype="GPString",
+            datatype="GPFeatureLayer",
             parameterType="Required",
             direction="Input")
         
         p2 = arcpy.Parameter(
             displayName="Break Count",
-            name="BreakCount",
+            name="Break_Count",
             datatype="GPLong",
             parameterType="Required",
             direction="Input")
+        p2.filter.type = "Range"
+        p2.filter.list = [3,9]  #Set min and max values for break count
+        p2.value = 5  #Set default value for break count
         
         p3 = arcpy.Parameter(
             displayName="Color Ramp Name",
@@ -56,24 +68,24 @@ class GraduatedColorsRenderer:
             datatype="GPString",
             parameterType="Optional",
             direction="Input")
-        p3.value = "Blue to Red"  #Update with a different default color ramp name 
+        p3.value = "Green (5 Classes)"  #Update with a different default color ramp name 
 
         p4 = arcpy.Parameter(
             displayName="Output Folder",
-            name="OutputFolder",
+            name="Out_Folder",
             datatype="DEFolder",
             parameterType="Required",
             direction="Input")
 
         p5 = arcpy.Parameter(
             displayName="Output Project Name (no .aprx)",
-            name="OutputName",
+            name="Out_ Name",
             datatype="GPString",
             parameterType="Required",
             direction="Input")
 
-        params = [p0, p1, p2, p3, p4, p5]
-        return params
+        return [p0, p1, p2, p3, p4, p5]
+      
 
     def isLicensed(self):
         """Set whether the tool is licensed to execute."""
@@ -88,70 +100,87 @@ class GraduatedColorsRenderer:
     def updateMessages(self, parameters):
         """Modify the messages created by internal validation for each tool
         parameter. This method is called after internal validation."""
-       
         return
+    
+    # ----------------------------
+    # Execute
+    # ----------------------------
 
     def execute(self, parameters, messages):
-        """The source code of the tool."""
-        
-        #Define Progressor Variables
-        readTime = 2.5
+        aprx_path = parameters[0].valueAsText
+        in_layer = parameters[1].value  # GPFeatureLayer reference
+        break_count = int(parameters[2].value)
+        ramp_name = parameters[3].valueAsText or f"Oranges ({break_count} Classes)"
+        out_folder = parameters[4].valueAsText
+        out_name = parameters[5].valueAsText.strip()
+        out_aprx = os.path.join(out_folder, f"{out_name}.aprx")
+
+        # ----------------------------
+        # Progressor
+        # ----------------------------
+
+        # Progressor setup
+        readTime = 1.0
         start = 0
-        max = 100
-        step = 33
-
-        #Setup Progressor 
-        arcpy.SetProgressor("step", "Starting Process...", start, max, step)
+        maximum = 100
+        step = 25
+        arcpy.SetProgressor("step", "Opening project…", start, maximum, step)
         time.sleep(readTime)
 
-        arcpy.AddMessage("Validating project file...")
+        arcpy.AddMessage("Opening project…")
+        project = arcpy.mp.ArcGISProject(aprx_path)
 
-        project = arcpy.mp.ArcGISProProject(parameters[0].valueAsText)
-
-        #Grabs the first instance of a map from the .aprx
-        campus = project.listMaps('map')[0] #user navigates to this specified folder
-
-        #Increment Progressor
+        # Try to resolve the map that contains the chosen layer
         arcpy.SetProgressorPosition(start + step)
-        arcpy. SetProgressorLabel('Finding your map layer...')
+        arcpy.SetProgressorLabel("Locating layer in map…")
         time.sleep(readTime)
-        arcpy.AddMessage("Finding your map layer...")
-        
-        #loop through the layers of the map
-        for layer in campus.listLayers():
-            #check if the layer is a feature layer
-            if layer.isFeatureLayer:
-                #check the layer's symbology type
-                symbology = layer.symbology
-                #make sure symbology has a renderer attribute
-                if hasattr(symbology, 'renderer'):
-                    #check layer name
-                    if layer.name == parameters[1].valueAsText: # user will have to input this as an exact string
-                        
-                        #Increment Progressor
-                        arcpy.SetProgressorPosition(start + 2*step)
-                        arcpy.SetProgressorLabel('Calculating & Clasifying...')
-                        time.sleep(readTime)
-                        arcpy.AddMessage("Calculating & Classifying...")
+        arcpy.AddMessage("Locating layer in map…")
 
-                        #Update the copy's renderer to Graduated Colors Renderer
-                        symbology.updateRenderer('GraduatedColorsRenderer')
-                        #Tell arcpy which field to base the cholorpleth map off of
-                        symbology.renderer.classificationField = "Shape_Area"
-                        #Set the number of classes
-                        symbology.renderer.breakCount = 5
-                        #Set the color ramp
-                        symbology.colorRamp = project.listColorRamps("Greens (5 Classes)")[0]
-                        #Set the layer's actual symbology equal to the copy's
-                        layer.symbology = symbology
-                    else:
-                        print("NOT STRUCTURES")
+        # The GPFeatureLayer parameter already points to the live layer in the map, but we still need its symbology via the layer object.
+        layer = in_layer
 
-        project.saveACopy(os.path.join(parameters[4].valueAsText, parameters[5].valueAsText + ".aprx"))
-        arcpy.AddMessage(f"Saved new project to {os.path.join(parameters[4].valueAsText, parameters[5].valueAsText + '.aprx')}")
+        if not getattr(layer, "isFeatureLayer", False):
+            raise arcpy.ExecuteError("Selected input is not a feature layer.")
+
+        sym = layer.symbology
+        if not hasattr(sym, "renderer"):
+            raise arcpy.ExecuteError("Selected layer does not support a renderer.")
+
+        # Apply Graduated Colors renderer
+        arcpy.SetProgressorPosition(start + step*2)
+        arcpy.SetProgressorLabel("Applying Graduated Colors…")
+        time.sleep(readTime)
+        arcpy.AddMessage("Applying Graduated Colors…")
+
+        sym.updateRenderer("GraduatedColorsRenderer")
+
+        # Classification field — lab uses GarageParking.Shape_Area
+        # (Adjust if your layer uses a different numeric field.)
+        sym.renderer.classificationField = "Shape_Area"
+
+        sym.renderer.breakCount = break_count
+
+        # Try to find a ramp by name; fall back to first available multi-class ramp
+        ramps = project.listColorRamps(ramp_name)
+        if not ramps:
+            ramps = project.listColorRamps()  # any
+        if not ramps:
+            raise arcpy.ExecuteError("No color ramps available in this project.")
+        sym.renderer.colorRamp = ramps[0]
+
+        # Commit symbology back to the layer
+        layer.symbology = sym
+
+        # Save a copy of the project
+        arcpy.SetProgressorPosition(start + step*3)
+        arcpy.SetProgressorLabel("Saving a copy of the project…")
+        time.sleep(readTime)
+        arcpy.AddMessage("Saving a copy of the project…")
+
+        project.saveACopy(out_aprx)
+
+        arcpy.SetProgressorPosition(maximum)
+        arcpy.SetProgressorLabel("Done.")
+        time.sleep(readTime)
+        arcpy.AddMessage(f"Saved new project to: {out_aprx}")
         return
-                    
-    def postExecute(self, parameters):
-                """This method takes place after outputs are processed and
-                added to the display."""
-                return
