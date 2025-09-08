@@ -60,7 +60,7 @@ class GraduatedColorsRenderer:
             direction="Input")
         p2.parameterDependencies = [p1.name] 
         # limit to numeric types
-        p2.filters.list = ["Short", "Long", "Float", "Double"]
+        p2.filter.list = ["Short", "Long", "Float", "Double"]
                 
         p3 = arcpy.Parameter(
             displayName="Break Count",
