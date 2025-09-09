@@ -91,7 +91,9 @@ This tool performs the following operations:
 
 ## Submission Items
 - Screenshot of `.py` code run in Visual Studio Code showing **no errors** in the terminal.  
-- Screenshot of **ArcGIS Pro** toolbox run (no error popups) and resulting symbology visible.  
+- Screenshot of **ArcGIS Pro** toolbox run (no error popups) and resulting symbology visible.
+- Screenshot of the copy .aprx project created by the tool & the created chloropleth map
+- Screenshot of the copy chloropleth map zoomed in to highlight the GarageParking layer 
 - Link to Geog 676 Lab06 GitHub repository containing `HW06MapTool.pyt`
 - This `README.md`.  
 
