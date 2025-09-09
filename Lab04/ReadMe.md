@@ -7,7 +7,7 @@
 ---
  
 ## Overview
-This script uses **ArcPy** to determine which TAMU campus buildings intersect with user defined buffer zones around parking garages. It runs reproducibly by resetting a clean results/ folder each time.
+This script uses **ArcPy** to determine which TAMU campus buildings intersect with user defined buffer zones around parking garages. It runs reproducibly by resetting a clean results folder each time.
 
 Script Pipeline:
 1. Builds a point feature class from a CSV of garage coordinates 
@@ -42,7 +42,7 @@ Script Pipeline:
 6. **Export CSV**  
    Exports the `GarageBuilding_Intersect` attribute table to `results/garage_building_intersections.csv`.
 
-*(The script deletes and recreates `results/` and `HW04.gdb` on each run.)*
+*(The script deletes and recreates `results` and `HW04.gdb` on each run.)*
 
 ---
 
