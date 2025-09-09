@@ -13,7 +13,7 @@ Build a Python Toolbox tool that applies a **Graduated Colors** renderer to a la
 
 ## Tasks
 - Create a script that generates a **GraduatedColorsRenderer** (choropleth) map.  
-- Package the script as a **Python Toolbox (.pyt)** accessible in the ArcGIS Pro Catelog under Toolboxes.  
+- Package the script as a **Python Toolbox (.pyt)** accessible in the ArcGIS Pro catalog under Toolboxes.  
 - Use a **step progressor** whose label updates at key stages (open project -> locate layer -> apply renderer -> save copy).
 
 ---
@@ -53,9 +53,9 @@ This tool performs the following operations:
 1. **Prep the .aprx**  
    - Create a new Pro project, add `Campus.gdb`, and add **GarageParking** (or another polygon layer). Save.
 2. **Add the toolbox**  
-   - In **Catalog** -> **Toolboxes** → right-click → **Add Toolbox…** -> select `HW06MapTool.pyt`.
+   - In **catalog** -> **Toolboxes** → right-click → **Add Toolbox…** -> select `HW06MapTool.pyt`.
 3. **Open the tool**  
-   - Toolbox drop down - ArcGIS Pro Catelog -> **Make a Graduated Colors Map**.
+   - Toolbox drop down - ArcGIS Pro catalog -> **Make a Graduated Colors Map**.
 4. **Fill parameters**  
    - Input .aprx = your saved project  
    - Classification Layer = the layer you want symbolized  
@@ -83,13 +83,17 @@ This tool performs the following operations:
 ![HW06 Screenshot #2](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/67bcadf9c1f56af611c14de8d83a9cba011da450/Lab06/Images/SuccessfulRunInArcGISPro.png)
 **The .Aprx file Created By The Tool With Chloropleth Map**
 ![HW06 Screenshot #3](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/4994e3e8c6667e9748c07f79b63611afac8d5d40/Lab06/Images/SuccessfulCopyProjectCreatedWithGCMap.png)
+**The Copy .Aprx With The Chloropleth Zoomed In**
+![HW06_Screenshot #4](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/148553993349abd9b8706fb9c70108d69eab2556/Lab06/Images/SuccessfulCopyProjectCreatedWithGCMap_1.png)
 
 
 ---
 
 ## Submission Items
 - Screenshot of `.py` code run in Visual Studio Code showing **no errors** in the terminal.  
-- Screenshot of **ArcGIS Pro** toolbox run (no error popups) and resulting symbology visible.  
+- Screenshot of **ArcGIS Pro** toolbox run (no error popups) and resulting symbology visible.
+- Screenshot of the copy .aprx project created by the tool & the created chloropleth map
+- Screenshot of the copy chloropleth map zoomed in to highlight the GarageParking layer 
 - Link to Geog 676 Lab06 GitHub repository containing `HW06MapTool.pyt`
 - This `README.md`.  
 
