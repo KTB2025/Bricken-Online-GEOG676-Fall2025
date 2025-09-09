@@ -78,12 +78,11 @@ This tool performs the following operations:
 
 ## Screenshot of the Tool
 **.Py Script Run in Visual Studio Code**
-![HW06 Screenshot #1](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/e0a825c4b0ac950cd5a8afb23aecefdfa0d5ede3/Lab06/Images/PyCodeRunVCS.png)
+![HW06 Screenshot #1](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/67bcadf9c1f56af611c14de8d83a9cba011da450/Lab06/Images/SucessfulPyCodeRunVCS.png)
 **.Pyt Run in ArcGIS Pro - Successful**
-![HW06 Screenshot #1](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/e0a825c4b0ac950cd5a8afb23aecefdfa0d5ede3/Lab06/Images/CodeRunInArcGISPro_1.png
-)
+![HW06 Screenshot #2](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/67bcadf9c1f56af611c14de8d83a9cba011da450/Lab06/Images/SuccessfulRunInArcGISPro.png)
 **The .Aprx file Created By The Tool With Chloropleth Map**
-![HW06 Screenshot #1](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/e0a825c4b0ac950cd5a8afb23aecefdfa0d5ede3/Lab06/Images/OutputAprxAndMap.png)
+![HW06 Screenshot #3]()
 
 
 ---
