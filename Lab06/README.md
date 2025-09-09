@@ -13,7 +13,7 @@ Build a Python Toolbox tool that applies a **Graduated Colors** renderer to a la
 
 ## Tasks
 - Create a script that generates a **GraduatedColorsRenderer** (choropleth) map.  
-- Package the script as a **Python Toolbox (.pyt)** accessible in the ArcGIS Pro Catelog under Toolboxes.  
+- Package the script as a **Python Toolbox (.pyt)** accessible in the ArcGIS Pro catalog under Toolboxes.  
 - Use a **step progressor** whose label updates at key stages (open project -> locate layer -> apply renderer -> save copy).
 
 ---
@@ -53,9 +53,9 @@ This tool performs the following operations:
 1. **Prep the .aprx**  
    - Create a new Pro project, add `Campus.gdb`, and add **GarageParking** (or another polygon layer). Save.
 2. **Add the toolbox**  
-   - In **Catalog** -> **Toolboxes** → right-click → **Add Toolbox…** -> select `HW06MapTool.pyt`.
+   - In **catalog** -> **Toolboxes** → right-click → **Add Toolbox…** -> select `HW06MapTool.pyt`.
 3. **Open the tool**  
-   - Toolbox drop down - ArcGIS Pro Catelog -> **Make a Graduated Colors Map**.
+   - Toolbox drop down - ArcGIS Pro catalog -> **Make a Graduated Colors Map**.
 4. **Fill parameters**  
    - Input .aprx = your saved project  
    - Classification Layer = the layer you want symbolized  
