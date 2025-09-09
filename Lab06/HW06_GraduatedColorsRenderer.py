@@ -58,10 +58,9 @@ class GraduatedColorsRenderer:
             datatype="Field",
             parameterType="Required",
             direction="Input")
-        p2.parameterDependencies = [p1.name] 
-        # limit to numeric types
+        p2.parameterDependencies = [p1.name]
         p2.filter.list = ["Short", "Long", "Float", "Double"]
-                
+
         p3 = arcpy.Parameter(
             displayName="Break Count",
             name="Break_Count",
@@ -118,15 +117,15 @@ class GraduatedColorsRenderer:
     def execute(self, parameters, messages):
         """The source code of the tool."""
         aprx_path  = parameters[0].valueAsText
-        layer      = parameters[1].value              # GPFeatureLayer
-        class_fld  = parameters[2].valueAsText        # selected numeric field
+        layer      = parameters[1].value             
+        class_fld  = parameters[2].valueAsText        
         break_cnt  = int(parameters[3].value)
         ramp_name  = parameters[4].valueAsText or f"Greens ({break_cnt} Classes)"
         out_folder = parameters[5].valueAsText
         out_name   = (parameters[6].valueAsText or "").strip().removesuffix(".aprx")
         out_aprx   = os.path.join(out_folder, f"{out_name}.aprx")
 
-            # progressor (unchanged)
+            # progressor 
         readTime, start, maximum, step = 1.0, 0, 100, 25
         arcpy.SetProgressor("step", "Opening project…", start, maximum, step)
         time.sleep(readTime)

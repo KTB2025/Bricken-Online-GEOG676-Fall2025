@@ -31,7 +31,7 @@ class GraduatedColorsRenderer:
     def getParameterInfo(self):
         """Define the tool parameters."""
         p0 = arcpy.Parameter(
-            displayName="Input ArcGIS Pro Project (.aprx)",
+            displayName="Input ArcGIS Pro Project (.aprx)", 
             name="aprx_input",
             datatype="DEFile",
             parameterType="Required",
@@ -39,7 +39,7 @@ class GraduatedColorsRenderer:
         p0.filter.list = ['aprx']
 
         p1 = arcpy.Parameter(
-            displayName="Classification Layer (feature layer in map)",
+            displayName="Classification Layer (feature layer)",
             name="in_layer",
             datatype="GPFeatureLayer",
             parameterType="Required",
@@ -119,7 +119,10 @@ class GraduatedColorsRenderer:
         out_name   = (parameters[6].valueAsText or "").strip().removesuffix(".aprx")
         out_aprx   = os.path.join(out_folder, f"{out_name}.aprx")
 
-        # progressor 
+    # ----------------------------
+    # Progressor
+    # ----------------------------
+
         readTime, start, maximum, step = 1.0, 0, 100, 25
         arcpy.SetProgressor("step", "Opening project…", start, maximum, step)
         time.sleep(readTime)
@@ -148,6 +151,10 @@ class GraduatedColorsRenderer:
         if not getattr(target_in_aprx, "isFeatureLayer", False):
             raise arcpy.ExecuteError("Selected input is not a feature layer.")
 
+    # ----------------------------
+    # Symbology
+    # ----------------------------
+
         symbology = target_in_aprx.symbology
         if not hasattr(symbology, "renderer"):
             raise arcpy.ExecuteError("Selected layer does not support a renderer.")
@@ -157,7 +164,10 @@ class GraduatedColorsRenderer:
         time.sleep(readTime)
         arcpy.AddMessage("Applying Graduated Colors…")
 
+        # ----------------------------
         # Apply renderer + parameters
+        # ----------------------------
+
         symbology.updateRenderer("GraduatedColorsRenderer")
         symbology.renderer.classificationField = class_fld
         symbology.renderer.breakCount = max(3, min(9, break_cnt))
@@ -170,10 +180,10 @@ class GraduatedColorsRenderer:
             raise arcpy.ExecuteError("No color ramps available in this project.")
         symbology.renderer.colorRamp = ramps[0]
 
-        # Commit back to the layer (in the APRX or the live layer if not found)
+        # Commit back to the layer (in the .aprx or the live project layer if not found)
         target_in_aprx.symbology = symbology
 
-        # Update the live layer so the current map view updates even if names mismatch
+        # Update the live project layer so the current map view updates even if names mismatch
         if target_in_aprx is not layer:
             try:
                 live_sym = layer.symbology
