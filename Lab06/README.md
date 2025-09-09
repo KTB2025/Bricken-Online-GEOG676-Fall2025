@@ -83,6 +83,8 @@ This tool performs the following operations:
 ![HW06 Screenshot #2](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/67bcadf9c1f56af611c14de8d83a9cba011da450/Lab06/Images/SuccessfulRunInArcGISPro.png)
 **The .Aprx file Created By The Tool With Chloropleth Map**
 ![HW06 Screenshot #3](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/4994e3e8c6667e9748c07f79b63611afac8d5d40/Lab06/Images/SuccessfulCopyProjectCreatedWithGCMap.png)
+**The Copy .Aprx With The Chloropleth Zoomed In**
+![HW06_Screenshot #4](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/148553993349abd9b8706fb9c70108d69eab2556/Lab06/Images/SuccessfulCopyProjectCreatedWithGCMap_1.png)
 
 
 ---
