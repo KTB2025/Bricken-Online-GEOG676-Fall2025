@@ -18,9 +18,23 @@ Build a Python Toolbox tool that applies a **Graduated Colors** renderer to a la
 
 ---
 
-## Tool: Create a Graduated Colors or Chloropleth Map
-**Class:** `GraduatedColorsRenderer` (inside `HW06MapTool.pyt`)  
-**Category:** Map Creation Tools
+## Tool Description
+
+**Toolbox:** `HW06MapTool.pyt`  
+**Tool:** `GraduatedColorsRenderer`  
+
+This tool performs the following operations:  
+1. Opens the live/current .aprx project using arcpy.mp.ArcGISProject
+2. Searches all maps in the project for a layer with the same name as the input layer.
+   If not found, it warns the user and applies changes only to the live session layer.
+3. Ensures the target layer is a feature layer and supports symbology rendering.
+4. Updates the layer’s symbology to use GraduatedColorsRenderer
+5. Sets:
+   a. Classification field
+   b. Break count (clamped between 3 and 9)
+   c. Color ramp (uses default or first available if not found)
+6. If the target layer in the .aprx differs from the live session layer, it tries to sync the symbology to both.
+7. Saves the modified project to the specified output folder with the new name.
 
 ### Parameters
 | # | Name (Display) | Type | Notes |
@@ -51,12 +65,13 @@ Build a Python Toolbox tool that applies a **Graduated Colors** renderer to a la
    - Output Folder
    - Output Project Name
 5. **Run**  
-   - Watch the **step progressor** messages update through each stage. A new **.aprx** copy is created in your output folder.
+   - Watch the **step progressor** messages update through each stage.
+   - A new **.aprx** copy is created in your output folder.
 
 ---
 
 ## Expected Output
-- A **new .aprx** saved to your output folder, in which the target layer has a **Graduated Colors** renderer using the chosen field, break count, and color ramp.  
+- A **new .aprx** saved to your output folder, in which the target layer has a **Graduated Colors** renderer using the chosen feature layer, break count, and color ramp.  
 - The current map view (live layer) is also updated when possible so you can see changes immediately.
 
 ---
@@ -76,17 +91,7 @@ Build a Python Toolbox tool that applies a **Graduated Colors** renderer to a la
 ## Submission Items
 - Screenshot of `.py` code run in Visual Studio Code showing **no errors** in the terminal.  
 - Screenshot of **ArcGIS Pro** toolbox run (no error popups) and resulting symbology visible.  
-- Link to GitHub repo containing `HW06MapTool.pyt` and this `README.md`.  
+- Link to Geog 676 Lab06 GitHub repository containing `HW06MapTool.pyt`
+- This `README.md`.  
 
----
-
-## Troubleshooting
-- **Output .aprx looks “empty.”**  
-  Ensure the input .aprx actually contains a map with a layer that **matches the selected layer’s name**. If not found, the tool warns and only updates the live layer.
-- **No color ramp found.**  
-  Try a known ramp label like `Greens (5 Classes)` or leave blank to auto-fallback.
-- **Field not in layer / not numeric.**  
-  Choose a numeric field (e.g., `Shape_Area`)—the parameter is filtered to numeric types.  
-- **Progressor shows but no changes.**  
-  Verify the correct **input .aprx** is selected, and the **Output Name** isn’t adding “.aprx” twice.
 
