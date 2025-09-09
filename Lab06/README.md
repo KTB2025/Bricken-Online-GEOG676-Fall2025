@@ -62,14 +62,21 @@ Build a Python Toolbox tool that applies a **Graduated Colors** renderer to a la
 ---
 
 ## Screenshot of the Tool
-![HW06 Screenshot #1]()
+**.Py Script Run in Visual Studio Code**
+![HW06 Screenshot #1](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/e0a825c4b0ac950cd5a8afb23aecefdfa0d5ede3/Lab06/Images/PyCodeRunVCS.png)
+**.Pyt Run in ArcGIS Pro - Successful**
+![HW06 Screenshot #1](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/e0a825c4b0ac950cd5a8afb23aecefdfa0d5ede3/Lab06/Images/CodeRunInArcGISPro_1.png
+)
+**The .Aprx file Created By The Tool With Chloropleth Map**
+![HW06 Screenshot #1](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/e0a825c4b0ac950cd5a8afb23aecefdfa0d5ede3/Lab06/Images/OutputAprxAndMap.png)
+
 
 ---
 
 ## Submission Items
 - Screenshot of `.py` code run in Visual Studio Code showing **no errors** in the terminal.  
 - Screenshot of **ArcGIS Pro** toolbox run (no error popups) and resulting symbology visible.  
-- Link to your GitHub repo containing `HW06MapTool.pyt` and this `README.md`.  
+- Link to GitHub repo containing `HW06MapTool.pyt` and this `README.md`.  
 
 ---
 
