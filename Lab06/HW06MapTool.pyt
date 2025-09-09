@@ -43,7 +43,7 @@ class GraduatedColorsRenderer:
             datatype="GPFeatureLayer",
             parameterType="Required",
             direction="Input")
-        p1.filter.list = ['polygon']
+        p1.filter.list = ['Polygon']
 
         p2 = arcpy.Parameter(
             displayName="Classification Field (numeric field)",
@@ -182,22 +182,43 @@ class GraduatedColorsRenderer:
             raise arcpy.ExecuteError("No color ramps available in this project.")
         symbology.renderer.colorRamp = ramps[0]
 
-        # Commit back to the layer (in the .aprx or the live project layer if not found)
+        # Commit back to the layer in the copy
         target_in_aprx.symbology = symbology
 
-        # Update the live project layer so the current map view updates even if names mismatch
-        if target_in_aprx is not layer:
-            try:
-                live_sym = layer.symbology
-                live_sym.updateRenderer("GraduatedColorsRenderer")
-                live_sym.renderer.classificationField = class_fld
-                live_sym.renderer.breakCount = symbology.renderer.breakCount
-                live_sym.renderer.colorRamp = symbology.renderer.colorRamp
-                layer.symbology = live_sym
-            except Exception:
-                pass
+        # Also update the layer in the live/current project so the live map reflects the change
+        try:
+            current_aprx = arcpy.mp.ArcGISProject("CURRENT")
+            updated_live = False
+            for cm in current_aprx.listMaps():
+                for clyr in cm.listLayers():
+                    if getattr(clyr, "isFeatureLayer", False) and clyr.name == target_name:
+                        # Build symbology fresh in live project 
+                        c_sym = clyr.symbology
+                        if not hasattr(c_sym, "renderer"):
+                            continue
+                        c_sym.updateRenderer("GraduatedColorsRenderer")
+                        c_sym.renderer.classificationField = class_fld
+                        c_sym.renderer.breakCount = max(3, min(9, break_cnt))
 
-        layer.symbology = symbology
+                        # Resolve a ramp in CURRENT; fall back if name not found
+                        c_ramps = current_aprx.listColorRamps(ramp_name) or current_aprx.listColorRamps()
+                        if c_ramps:
+                            c_sym.renderer.colorRamp = c_ramps[0]
+
+                        clyr.symbology = c_sym
+                        updated_live = True
+                        break
+                if updated_live:
+                    break
+
+            if not updated_live:
+                arcpy.AddWarning(
+                    "Couldn’t find a matching layer by name in the CURRENT project; "
+                    "live map symbology may not update."
+                )
+        except Exception as e:
+            arcpy.AddWarning(f"Live project update skipped: {e}")
+
 
         arcpy.SetProgressorPosition(start + step*3)
         arcpy.SetProgressorLabel("Saving a copy of the project…")

@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?><messages><msg code="0" type="2">Start Time: Tuesday, September 9, 2025 2:39:04 AM</msg><msg code="0" type="0">Opening project…</msg><msg code="1" type="100">﻿Traceback (most recent call last):
+﻿  File "&lt;string&gt;", line 135, in execute
+﻿AttributeError: ValueObject: Get attribute name does not exist
+</msg><msg code="-2147467259" type="100">Failed to execute (GraduatedColorsRenderer).</msg><msg code="0" type="3">Failed at Tuesday, September 9, 2025 2:39:06 AM (Elapsed Time: 1.60 seconds)</msg></messages>
