@@ -82,7 +82,7 @@ This tool performs the following operations:
 **.Pyt Run in ArcGIS Pro - Successful**
 ![HW06 Screenshot #2](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/67bcadf9c1f56af611c14de8d83a9cba011da450/Lab06/Images/SuccessfulRunInArcGISPro.png)
 **The .Aprx file Created By The Tool With Chloropleth Map**
-![HW06 Screenshot #3]()
+![HW06 Screenshot #3](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/4994e3e8c6667e9748c07f79b63611afac8d5d40/Lab06/Images/SuccessfulCopyProjectCreatedWithGCMap.png)
 
 
 ---
