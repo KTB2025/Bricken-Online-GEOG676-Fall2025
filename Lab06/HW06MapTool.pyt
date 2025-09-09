@@ -19,8 +19,7 @@ class GraduatedColorsRenderer:
     def __init__(self):
         """Define the tool (tool name is the name of the class)."""
         self.label = "Make a Graduated Colors Map"
-        self.description = "Create a Graduated Colors map for an existing ArcGIS Pro project" \
-                            " with a progressor and a saved output copy."
+        self.description = ("Create a Graduated Colors map for an existing ArcGIS Pro project with a progressor and a saved output copy.")
         self.canRunInBackground = False
         self.category = "Map Creation Tools"
 
@@ -44,7 +43,8 @@ class GraduatedColorsRenderer:
             datatype="GPFeatureLayer",
             parameterType="Required",
             direction="Input")
-        
+        p1.filter.list = ['polygon']
+
         p2 = arcpy.Parameter(
             displayName="Classification Field (numeric field)",
             name="Class_field",
@@ -110,8 +110,9 @@ class GraduatedColorsRenderer:
 
     def execute(self, parameters, messages):
         """The source code of the tool."""
+        """Tool Plan: open APRX -> set renderer -> save a copy."""
         aprx_path  = parameters[0].valueAsText
-        layer      = parameters[1].value              
+        layer      = parameters[1].value            # GPFeatureLayer from current project  
         class_fld  = parameters[2].valueAsText        
         break_cnt  = int(parameters[3].value)
         ramp_name  = parameters[4].valueAsText or f"Greens ({break_cnt} Classes)"
@@ -128,9 +129,9 @@ class GraduatedColorsRenderer:
         time.sleep(readTime)
         arcpy.AddMessage("Opening project…")
 
-        project = arcpy.mp.ArcGISProject(aprx_path)
+        project = arcpy.mp.ArcGISProject(aprx_path)        # Open the .aprx file on disk - the copy
 
-        # Use the selected layer’s name to find the matching layer inside the loaded APRX
+        # Find a layer of the same name inside the loaded APRX
         target_name = layer.name
 
         target_in_aprx = None
@@ -142,18 +143,19 @@ class GraduatedColorsRenderer:
             if target_in_aprx:
                 break
 
+        # If not found in the aprx, fall back to the live current project
         if not target_in_aprx:
             arcpy.AddWarning(f"Could not find a layer named '{target_name}' in {aprx_path}. "
                             "Applying changes to the live layer only; saved copy may look empty.")
-            target_in_aprx = layer  # fall back so user still sees results in-session
+            target_in_aprx = layer  # fall back so user still sees results in session
     
         # Safety checks on the target layer
         if not getattr(target_in_aprx, "isFeatureLayer", False):
             raise arcpy.ExecuteError("Selected input is not a feature layer.")
 
-    # ----------------------------
-    # Symbology
-    # ----------------------------
+        # ----------------------------
+        # Symbology
+        # ----------------------------
 
         symbology = target_in_aprx.symbology
         if not hasattr(symbology, "renderer"):
@@ -202,7 +204,7 @@ class GraduatedColorsRenderer:
         time.sleep(readTime)
         arcpy.AddMessage("Saving a copy of the project…")
 
-        project.saveACopy(out_aprx)
+        project.saveACopy(out_aprx) # Save the modified aprx copy to disk
 
         arcpy.SetProgressorPosition(maximum)
         arcpy.SetProgressorLabel("Done.")
