@@ -21,7 +21,7 @@ Build a Python Toolbox tool that applies a **Graduated Colors** renderer to a la
 ## Tool Description
 
 **Toolbox:** `HW06MapTool.pyt`  
-**Tool:** `GraduatedColorsRenderer`  
+**Tool:** `Make A Graduated Colors Map`  
 
 This tool performs the following operations:  
 1. Opens the live/current .aprx project using arcpy.mp.ArcGISProject
