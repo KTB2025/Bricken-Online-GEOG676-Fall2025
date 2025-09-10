@@ -35,7 +35,7 @@ arcpy.management.CompositeBands([band1, band2, band3, band4], source + "\combine
 # =============================================
 
 # Generate a hillshade raster from the DEM to highlight terrain morphology.
-source = r"C:\Mac\Home\Documents\FallWorkSpace\Bricken-Online-GEOGG676-Fall2025-Lab07-Images\DEM"
+source = r"C:\Mac\Home\Documents\FallWorkSpace\Bricken-Online-GEOG676-Fall2025-Lab07-Images\DEM"
 azimuth = 315        # Sun azimuth angle (from north -> clockwise)
 altitude = 45        # Sun elevation angle above horizon
 shadows = "NO_SHADOWS"
@@ -48,7 +48,7 @@ arcpy.ddd.HillShade(source + r"\n29_w096_1arc_v3.tif",source + r"\n29_w096_1arc_
 # =============================================
 
 # Calculate slope in degrees from the DEM. This provides quantitative information about surface gradient, relevant to hydrology, geomorphology, and land use planning.
-source = r"C:\Mac\Home\Documents\FallWorkSpace\Bricken-Online-GEOGG676-Fall2025-Lab07-Images\DEM"
+source = r"C:\Mac\Home\Documents\FallWorkSpace\Bricken-Online-GEOG676-Fall2025-Lab07-Images\DEM"
 output_measurement = "DEGREE"
 z_factor = 1
 # method = "PLANAR"   # Defaults to planar
