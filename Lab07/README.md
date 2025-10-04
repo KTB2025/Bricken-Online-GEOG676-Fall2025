@@ -56,32 +56,6 @@ This Python script automates raster analysis steps within ArcGIS Pro using the *
 
 ---
 
-## How to Run
-1. **Prepare Input Data**  
-   - Download Landsat spectral bands (B1–B4) and place them in a single folder.  
-   - Download a DEM (e.g., SRTM) for the same region.  
-
-2. **Set Environment**  
-   - Open the script in **ArcGIS Pro** or **Visual Studio Code** using the ArcGIS Pro Python environment.  
-   - Confirm that the **Spatial Analyst** and **3D Analyst** extensions are enabled.  
-
-3. **Run the Script**  
-   - Update the `source` directory paths in the script to match the local workspace.  
-   - Run the script.  
-   - The following output rasters will be generated:  
-     - `combined.tif` (composite raster)  
-     - `n29_w096_1arc_v3_hillshade.tif` (hillshade raster)  
-     - `n29_w096_1arc_v3_slope.tif` (slope raster)  
-
----
-
-## Expected Output
-- A **composite raster** showing combined Landsat RGB+NIR bands.  
-- A **hillshade raster** representing shaded terrain relief.  
-- A **slope raster** in degrees, visualizing terrain gradient intensity.  
-
----
-
 ## Output Images
 **Composite Raster**  
 ![HW07 Screenshot #1](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/dd3a763ac17320b6306333b3288bad17386a435e/Lab07/Images/HoustonAreaLandsatComposite.png)
