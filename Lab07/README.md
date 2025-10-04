@@ -84,13 +84,13 @@ This Python script automates raster analysis steps within ArcGIS Pro using the *
 
 ## Output Images
 **Composite Raster**  
-*(Screenshot of combined.tif raster in ArcGIS Pro)*  
+![HW07 Screenshot #1](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/dd3a763ac17320b6306333b3288bad17386a435e/Lab07/Images/HoustonAreaLandsatComposite.png)
 
 **Hillshade Raster**  
-*(Screenshot of shaded DEM with illumination effect)*  
+![HW07 Screenshot #2](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/dd3a763ac17320b6306333b3288bad17386a435e/Lab07/Images/HoustonAreaDEMHillshade.png)
 
 **Slope Analysis Raster**  
-*(Screenshot of slope map displayed in ArcGIS Pro)*  
+![HW07 Screenshot #3](https://github.com/KTB2025/Bricken-Online-GEOG676-Fall2025/blob/dd3a763ac17320b6306333b3288bad17386a435e/Lab07/Images/HoustonAreaDEMSlope.png)
 
 ---
 
