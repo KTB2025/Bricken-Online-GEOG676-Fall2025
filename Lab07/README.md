@@ -15,7 +15,7 @@ The goal is to practice working with **raster datasets in ArcPy**, including com
 ## Tasks
 - Download multispectral satellite imagery (e.g., **Landsat**) separated by bands.  
 - Create a **composite raster** image by stacking several spectral bands.  
-- Download a **Digital Elevation Model (DEM)** of an area of interest. For this project this was centerted on the Houston-Galveston area.   
+- Download a **Digital Elevation Model (DEM)** of an area of interest. For this project I wanted to cover where I lived in Houston and the surrounding area.   
 - Use the DEM to create two analytical outputs:
   1. **Hillshade raster** to visualize topographic relief.  
   2. **Slope raster** to quantify terrain gradients.  
