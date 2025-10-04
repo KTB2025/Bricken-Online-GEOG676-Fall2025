@@ -95,7 +95,6 @@ This Python script automates raster analysis steps within ArcGIS Pro using the *
 ---
 
 ## Submission Items
-- Screenshot of `.py` script run successfully in **Visual Studio Code**.  
 - Screenshot of **composite raster** output in ArcGIS Pro.  
 - Screenshot of **hillshade raster** output in ArcGIS Pro.  
 - Screenshot of **slope raster** output in ArcGIS Pro.  
